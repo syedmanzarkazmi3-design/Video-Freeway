@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Freeway - Download Videos Without Watermark</title>
+<meta name="description" content="Download TikTok, YouTube, Facebook & Pinterest videos without watermark in HD quality. Free, fast, and easy to use.">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Inter', 'sans-serif'] },
+      colors: {
+        primary: { 50: '#fff7ed', 100: '#ffedd5', 200: '#fed7aa', 300: '#fdba74', 400: '#fb923c', 500: '#f97316', 600: '#ea580c', 700: '#c2410c', 800: '#9a3412', 900: '#7c2d12' }
+      },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'float-delayed': 'float 6s ease-in-out 3s infinite',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'bounce-slow': 'bounce 3s infinite',
+        'slide-up': 'slideUp 0.6s ease-out',
+        'slide-down': 'slideDown 0.3s ease-out',
+        'fade-in': 'fadeIn 0.5s ease-out',
+        'scale-in': 'scaleIn 0.3s ease-out',
+        'shimmer': 'shimmer 2s linear infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(30px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideDown: {
+          '0%': { opacity: '0', transform: 'translateY(-20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        scaleIn: {
+          '0%': { opacity: '0', transform: 'scale(0.9)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        }
+      }
+    }
+  }
+}
+</script>
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js"></script>
+<script src="assets/reviews.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300">
+
+<!-- Navbar -->
+<nav class="sticky top-3 sm:top-4 z-50 transition-all duration-300 px-3 sm:px-6 lg:px-8">
+<div class="max-w-6xl mx-auto">
+<div class="glass backdrop-blur-xl border border-white/50 dark:border-slate-700/60 rounded-full shadow-lg shadow-orange-900/5 dark:shadow-black/30 px-4 sm:px-6 transition-all duration-300">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center space-x-2 sm:space-x-3 cursor-pointer" onclick="showPage('home')">
+<!-- VF Logo -->
+<div class="logo-container w-10 h-10 sm:w-12 sm:h-12">
+<img src="assets/logo.png" alt="Video Freeway Logo" class="w-full h-full object-contain">
+</div>
+<span class="text-lg sm:text-2xl font-black gradient-text">Video Freeway</span>
+</div>
+
+<div class="flex items-center gap-1.5 sm:gap-3">
+<!-- Desktop Menu -->
+<div class="hidden md:flex items-center space-x-6">
+<a onclick="showPage('home')" class="nav-link cursor-pointer hover:text-primary-600 font-medium transition transform hover:scale-105">Home</a>
+<a onclick="showPage('blogs')" class="nav-link cursor-pointer hover:text-primary-600 font-medium transition transform hover:scale-105">Blogs</a>
+<a onclick="showPage('faq')" class="nav-link cursor-pointer hover:text-primary-600 font-medium transition transform hover:scale-105">FAQ</a>
+<div class="downloaders-dropdown-wrap">
+<button class="nav-link cursor-pointer hover:text-primary-600 font-medium transition flex items-center gap-1">
+Downloaders <i data-lucide="chevron-down" class="w-4 h-4"></i>
+</button>
+<div class="downloaders-dropdown-menu">
+<a href="tiktok.html"><span class="dd-icon bg-black"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></span> TikTok Downloader</a>
+<a href="youtube.html"><span class="dd-icon bg-red-600"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span> YouTube Downloader</a>
+<a href="facebook.html"><span class="dd-icon bg-blue-600"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></span> Facebook Downloader</a>
+<a href="pinterest.html"><span class="dd-icon bg-red-500"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 0 5.396 0 12.017c0 5.084 3.163 9.42 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.781c0-1.663.967-2.911 2.171-2.911 1.023 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.056-4.86-4.994-4.86-3.4 0-5.395 2.551-5.395 5.188 0 1.029.394 2.132.889 2.729a.36.36 0 0 1 .081.343c-.089.372-.287 1.192-.325 1.358-.053.216-.174.262-.402.158-1.499-.699-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.004 2.35-1.496 3.146C9.57 23.812 10.763 24 12.017 24c6.624 0 12-5.396 12-12.017C24.017 5.396 18.641 0 12.017 0"/></svg></span> Pinterest Downloader</a>
+</div>
+</div>
+<button onclick="toggleTheme()" class="p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition transform hover:rotate-12">
+<i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+<i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
+</button>
+</div>
+
+<!-- Mobile-only Downloaders button, next to Sign In -->
+<div class="relative md:hidden">
+<button onclick="toggleNavDownloadersMobile(event)" class="flex items-center gap-1 px-2.5 py-2 rounded-lg text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+<i data-lucide="download" class="w-4 h-4"></i>
+<i data-lucide="chevron-down" class="w-3 h-3" id="navDownloadersMobileIcon"></i>
+</button>
+<div id="navDownloadersMobileMenu" class="downloaders-dropdown-menu" style="right:0; left:auto; transform:translateY(8px);">
+<a href="tiktok.html"><span class="dd-icon bg-black"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></span> TikTok</a>
+<a href="youtube.html"><span class="dd-icon bg-red-600"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span> YouTube</a>
+<a href="facebook.html"><span class="dd-icon bg-blue-600"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></span> Facebook</a>
+<a href="pinterest.html"><span class="dd-icon bg-red-500"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 0 5.396 0 12.017c0 5.084 3.163 9.42 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.781c0-1.663.967-2.911 2.171-2.911 1.023 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.056-4.86-4.994-4.86-3.4 0-5.395 2.551-5.395 5.188 0 1.029.394 2.132.889 2.729a.36.36 0 0 1 .081.343c-.089.372-.287 1.192-.325 1.358-.053.216-.174.262-.402.158-1.499-.699-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.004 2.35-1.496 3.146C9.57 23.812 10.763 24 12.017 24c6.624 0 12-5.396 12-12.017C24.017 5.396 18.641 0 12.017 0"/></svg></span> Pinterest</a>
+</div>
+</div>
+
+<div id="authButtons">
+<button onclick="showPage('auth')" class="btn-shine gradient-primary text-white px-3.5 sm:px-6 py-2 rounded-xl font-bold text-sm sm:text-base hover:opacity-90 transition transform hover:scale-105 shadow-lg">Sign In</button>
+</div>
+<div id="userMenu" class="hidden relative">
+<button onclick="toggleUserMenu(event)" class="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+<i data-lucide="user" class="w-5 h-5"></i>
+<span id="userNameDisplay" class="font-medium"></span>
+<i data-lucide="chevron-down" class="w-4 h-4 transition-transform" id="userMenuIcon"></i>
+</button>
+<div id="userDropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 py-2 animate-slide-down z-50">
+<a onclick="showPage('dashboard'); closeUserMenu()" class="block px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition flex items-center gap-3">
+<i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+</a>
+<a id="adminLink" onclick="showPage('admin'); closeUserMenu()" class="hidden block px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition flex items-center gap-3">
+<i data-lucide="shield" class="w-4 h-4"></i> Admin Panel
+</a>
+<a id="grantAccessLink" onclick="showGrantAccess(); closeUserMenu()" class="hidden block px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition flex items-center gap-3 text-primary-600">
+<i data-lucide="user-plus" class="w-4 h-4"></i> Grant Access
+</a>
+<div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
+<a onclick="logout()" class="block px-4 py-3 text-red-600 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition flex items-center gap-3">
+<i data-lucide="log-out" class="w-4 h-4"></i> Logout
+</a>
+</div>
+</div>
+
+<!-- Mobile Menu Button -->
+<button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+<i data-lucide="menu" class="w-6 h-6"></i>
+</button>
+</div>
+</div>
+</div>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="md:hidden mobile-menu hidden mt-3 glass backdrop-blur-xl border border-white/50 dark:border-slate-700/60 rounded-3xl shadow-lg py-4">
+<div class="flex flex-col space-y-3 px-4">
+<a onclick="showPage('home'); toggleMobileMenu()" class="py-2 hover:text-primary-600 font-medium transition">Home</a>
+<a onclick="showPage('blogs'); toggleMobileMenu()" class="py-2 hover:text-primary-600 font-medium transition">Blogs</a>
+<a onclick="showPage('faq'); toggleMobileMenu()" class="py-2 hover:text-primary-600 font-medium transition">FAQ</a>
+<button onclick="toggleTheme()" class="py-2 text-left hover:text-primary-600 font-medium transition">Toggle Theme</button>
+<div id="mobileAuthButtons">
+<button onclick="showPage('auth'); toggleMobileMenu()" class="gradient-primary text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition shadow-lg">Sign In</button>
+</div>
+<div id="mobileUserMenu" class="hidden space-y-2">
+<div class="text-sm font-medium text-slate-600 dark:text-slate-400">Logged in as <span id="mobileUserName"></span></div>
+<a onclick="showPage('dashboard'); toggleMobileMenu()" class="py-2 hover:text-primary-600 font-medium transition">Dashboard</a>
+<a id="mobileAdminLink" onclick="showPage('admin'); toggleMobileMenu()" class="hidden py-2 hover:text-primary-600 font-medium transition">Admin Panel</a>
+<a id="mobileGrantAccessLink" onclick="showGrantAccess(); toggleMobileMenu()" class="hidden py-2 text-primary-600 font-medium transition">Grant Access</a>
+<a onclick="logout(); toggleMobileMenu()" class="py-2 text-red-600 font-medium transition">Logout</a>
+</div>
+</div>
+</div>
+</div>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="homePage" class="page-section animate-fade-in">
+<!-- Hero Section -->
+<section class="relative py-20 bg-gradient-to-br from-orange-50 via-white to-yellow-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 overflow-hidden">
+<div class="absolute inset-0 overflow-hidden pointer-events-none">
+<div class="absolute top-20 -left-20 w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
+<div class="absolute top-40 -right-20 w-96 h-96 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float-delayed"></div>
+<div class="absolute bottom-20 left-1/3 w-96 h-96 bg-red-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
+</div>
+<div class="relative max-w-5xl mx-auto px-4 text-center">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-sm font-semibold mb-6 animate-slide-up shadow-lg">
+<span class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
+100% Free • No Watermark • HD Quality
+</div>
+<h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight animate-slide-up">
+Download Videos<br><span class="gradient-text">Without Watermark</span>
+</h1>
+<p class="text-xl md:text-2xl text-slate-600 dark:text-slate-300 mb-12 max-w-3xl mx-auto animate-slide-up">
+Download TikTok, YouTube, Facebook &amp; Pinterest videos in HD quality <span class="font-bold text-slate-800 dark:text-white">Completely FREE!</span>
+</p>
+
+<!-- Choose Your Downloader -->
+<div class="max-w-6xl mx-auto animate-slide-up">
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+<a href="tiktok.html" class="tool-card bg-white dark:bg-slate-800 rounded-3xl p-6 border-2 border-slate-200 dark:border-slate-700 shadow-lg">
+<div class="tool-icon-badge w-14 h-14 bg-black rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+<svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+</div>
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-1">TikTok</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-4">No watermark, HD quality</p>
+<span class="inline-flex items-center gap-1 text-sm font-bold text-orange-600 dark:text-orange-400">Download now <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+</a>
+<a href="youtube.html" class="tool-card bg-white dark:bg-slate-800 rounded-3xl p-6 border-2 border-slate-200 dark:border-slate-700 shadow-lg">
+<div class="tool-icon-badge w-14 h-14 bg-red-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+<svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+</div>
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-1">YouTube</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Videos &amp; Shorts, HD</p>
+<span class="inline-flex items-center gap-1 text-sm font-bold text-orange-600 dark:text-orange-400">Download now <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+</a>
+<a href="facebook.html" class="tool-card bg-white dark:bg-slate-800 rounded-3xl p-6 border-2 border-slate-200 dark:border-slate-700 shadow-lg">
+<div class="tool-icon-badge w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+<svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+</div>
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-1">Facebook</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Videos &amp; Reels, HD/SD</p>
+<span class="inline-flex items-center gap-1 text-sm font-bold text-orange-600 dark:text-orange-400">Download now <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+</a>
+<a href="pinterest.html" class="tool-card bg-white dark:bg-slate-800 rounded-3xl p-6 border-2 border-slate-200 dark:border-slate-700 shadow-lg">
+<div class="tool-icon-badge w-14 h-14 bg-red-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+<svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 0 5.396 0 12.017c0 5.084 3.163 9.42 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.781c0-1.663.967-2.911 2.171-2.911 1.023 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.056-4.86-4.994-4.86-3.4 0-5.395 2.551-5.395 5.188 0 1.029.394 2.132.889 2.729a.36.36 0 0 1 .081.343c-.089.372-.287 1.192-.325 1.358-.053.216-.174.262-.402.158-1.499-.699-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.004 2.35-1.496 3.146C9.57 23.812 10.763 24 12.017 24c6.624 0 12-5.396 12-12.017C24.017 5.396 18.641 0 12.017 0"/></svg>
+</div>
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-1">Pinterest</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Pins &amp; videos, no watermark</p>
+<span class="inline-flex items-center gap-1 text-sm font-bold text-orange-600 dark:text-orange-400">Download now <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="py-20 bg-white dark:bg-slate-800">
+<div class="max-w-6xl mx-auto px-4">
+<div class="text-center mb-14">
+<h2 class="text-4xl md:text-5xl font-black text-slate-800 dark:text-slate-100 mb-4 animate-slide-up">Why People Choose Video Freeway</h2>
+<p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto animate-slide-up">A fast, free way to save videos from your favorite platforms — no apps, no sign-up required, and no watermark on your downloads.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<div class="feature-block text-center animate-slide-up">
+<div class="feature-icon-wrap w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg"><i data-lucide="zap" class="w-8 h-8 text-white"></i></div>
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-2">Lightning Fast</h3>
+<p class="text-slate-600 dark:text-slate-400">Paste a link and get your download ready in seconds — no waiting around, no unnecessary steps.</p>
+</div>
+<div class="feature-block text-center animate-slide-up" style="animation-delay:0.1s">
+<div class="feature-icon-wrap w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg"><i data-lucide="shield-check" class="w-8 h-8 text-white"></i></div>
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-2">100% Free &amp; Safe</h3>
+<p class="text-slate-600 dark:text-slate-400">No hidden charges, no forced sign-ups, and no shady redirects — just a clean, safe download experience.</p>
+</div>
+<div class="feature-block text-center animate-slide-up" style="animation-delay:0.2s">
+<div class="feature-icon-wrap w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg"><i data-lucide="smartphone" class="w-8 h-8 text-white"></i></div>
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-2">Works Everywhere</h3>
+<p class="text-slate-600 dark:text-slate-400">Use it on your phone, tablet, or computer — no app install needed, just open your browser.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Reviews Marquee -->
+<section class="py-20 bg-slate-50 dark:bg-slate-900/50 overflow-hidden">
+<div class="max-w-6xl mx-auto px-4">
+<div class="text-center mb-12">
+<h2 class="text-4xl md:text-5xl font-black text-slate-800 dark:text-slate-100 mb-4 animate-slide-up">Loved By Our Users</h2>
+<p class="text-lg text-slate-600 dark:text-slate-400 animate-slide-up">Thousands of happy downloads every day</p>
+</div>
+</div>
+<div class="reviews-track-wrap">
+<div id="reviewsTrack" class="reviews-track"></div>
+</div>
+</section>
+
+<!-- FAQ Preview Section -->
+<section class="py-20 bg-white dark:bg-slate-800">
+<div class="max-w-5xl mx-auto px-4">
+<div class="text-center mb-12">
+<h2 class="text-4xl md:text-5xl font-black text-slate-800 dark:text-slate-100 mb-4 animate-slide-up">Frequently Asked Questions</h2>
+<p class="text-lg text-slate-600 dark:text-slate-400 animate-slide-up">Quick answers to common questions</p>
+</div>
+<div id="homeFaqPreview" class="space-y-4"></div>
+<div id="homeFaqEmpty" class="hidden text-center text-slate-500 dark:text-slate-400">No FAQs added yet.</div>
+<div class="text-center mt-10 animate-slide-up">
+<button onclick="showPage('faq')" class="see-more-btn btn-shine gradient-primary text-white px-8 py-4 rounded-2xl font-black text-lg shadow-xl hover:opacity-95 transition inline-flex items-center gap-2">
+<span>See More</span><i data-lucide="arrow-right" class="w-5 h-5"></i>
+</button>
+</div>
+</div>
+</section>
+</div>
+
+<!-- AUTH PAGE -->
+<div id="authPage" class="page-section hide">
+<div class="min-h-screen py-20 bg-gradient-to-br from-orange-50 via-white to-yellow-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+<div class="max-w-md mx-auto px-4">
+<div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-8 border border-slate-200 dark:border-slate-700 animate-scale-in">
+<div class="text-center mb-8">
+<div class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4 pulse-glow"><i data-lucide="user" class="w-8 h-8 text-white"></i></div>
+<h2 class="text-3xl font-black text-slate-800 dark:text-slate-100 mb-2">Welcome Back</h2>
+<p class="text-slate-600 dark:text-slate-400">Sign in to your account</p>
+</div>
+
+<!-- Login Form -->
+<form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
+<input type="email" id="loginEmail" required autocomplete="off" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition" placeholder="you@example.com">
+</div>
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Password</label>
+<input type="password" id="loginPassword" required autocomplete="off" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition" placeholder="••••••••">
+</div>
+<button type="submit" class="w-full gradient-primary text-white py-4 rounded-xl font-black text-lg hover:opacity-90 transition transform hover:scale-[1.02] shadow-lg">Sign In</button>
+</form>
+
+<div class="mt-6 text-center">
+<button onclick="showForgotPassword()" class="text-primary-600 hover:text-primary-700 font-medium text-sm transition">Forgot Password?</button>
+</div>
+
+<div class="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700 text-center">
+<p class="text-slate-600 dark:text-slate-400 text-sm">Don't have an account? <button onclick="showSignUp()" class="text-primary-600 font-bold hover:text-primary-700 transition">Sign Up</button></p>
+</div>
+
+<!-- Sign Up Form -->
+<form id="signUpForm" class="space-y-4 hide" onsubmit="handleSignUp(event)">
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Full Name</label>
+<input type="text" id="signUpName" required autocomplete="off" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition" placeholder="John Doe">
+</div>
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
+<input type="email" id="signUpEmail" required autocomplete="off" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition" placeholder="you@example.com">
+</div>
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Password</label>
+<input type="password" id="signUpPassword" required minlength="6" autocomplete="off" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition" placeholder="••••••••">
+</div>
+<button type="submit" class="w-full gradient-primary text-white py-4 rounded-xl font-black text-lg hover:opacity-90 transition transform hover:scale-[1.02] shadow-lg">Create Account</button>
+</form>
+
+<div class="mt-6 text-center hide" id="backToLogin">
+<button onclick="showLogin()" class="text-slate-600 dark:text-slate-400 font-medium text-sm transition hover:text-slate-800 dark:hover:text-slate-200">← Back to Login</button>
+</div>
+
+<!-- Forgot Password -->
+<form id="forgotPasswordForm" class="space-y-4 hide" onsubmit="handleForgotPassword(event)">
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
+<input type="email" id="resetEmail" required autocomplete="off" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition" placeholder="you@example.com">
+</div>
+<button type="submit" class="w-full gradient-primary text-white py-4 rounded-xl font-black text-lg hover:opacity-90 transition transform hover:scale-[1.02] shadow-lg">Send Reset Code</button>
+</form>
+
+<div class="mt-6 text-center hide" id="backToLogin2">
+<button onclick="showLogin()" class="text-slate-600 dark:text-slate-400 font-medium text-sm transition hover:text-slate-800 dark:hover:text-slate-200">← Back to Login</button>
+</div>
+
+<!-- Reset Password Form -->
+<form id="resetPasswordForm" class="space-y-4 hide" onsubmit="handleResetPassword(event)">
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Verification Code</label>
+<input type="text" id="resetCode" required autocomplete="off" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition" placeholder="Enter code">
+</div>
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">New Password</label>
+<input type="password" id="newPassword" required minlength="6" autocomplete="off" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition" placeholder="••••••••">
+</div>
+<button type="submit" class="w-full gradient-primary text-white py-4 rounded-xl font-black text-lg hover:opacity-90 transition transform hover:scale-[1.02] shadow-lg">Reset Password</button>
+</form>
+
+<div class="mt-6 text-center hide" id="backToLogin3">
+<button onclick="showLogin()" class="text-slate-600 dark:text-slate-400 font-medium text-sm transition hover:text-slate-800 dark:hover:text-slate-200">← Back to Login</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- GRANT ACCESS PAGE -->
+<div id="grantAccessPage" class="page-section hide">
+<div class="min-h-screen py-20 bg-slate-50 dark:bg-slate-900">
+<div class="max-w-2xl mx-auto px-4">
+<div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-8 border border-slate-200 dark:border-slate-700 animate-scale-in">
+<div class="text-center mb-8">
+<div class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
+<i data-lucide="user-plus" class="w-8 h-8 text-white"></i>
+</div>
+<h1 class="text-3xl font-black text-slate-800 dark:text-slate-100 mb-2">Grant Access</h1>
+<p class="text-slate-600 dark:text-slate-400">Invite users to join your team</p>
+</div>
+
+<div class="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6 mb-6 border border-blue-200 dark:border-blue-800">
+<h3 class="font-bold text-slate-800 dark:text-slate-100 mb-3">Access Levels</h3>
+<ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+<li class="flex items-start gap-2">
+<span class="font-bold text-primary-600">Viewer:</span>
+<span>Can view analytics, download history, and basic statistics. Read-only access.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="font-bold text-primary-600">Manager:</span>
+<span>Can manage blogs, FAQs, view all user data, and access detailed analytics. Cannot change admin credentials.</span>
+</li>
+</ul>
+</div>
+
+<form onsubmit="handleGrantAccess(event)" class="space-y-6">
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
+<input type="email" id="grantEmail" required autocomplete="off" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition" placeholder="user@example.com">
+</div>
+
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Access Level</label>
+<select id="grantRole" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition">
+<option value="viewer">Viewer - Read-only access</option>
+<option value="manager">Manager - Full management access</option>
+</select>
+</div>
+
+<button type="submit" class="w-full gradient-primary text-white py-4 rounded-xl font-black text-lg hover:opacity-90 transition transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-2">
+<span>Send Invitation</span>
+<i data-lucide="send" class="w-5 h-5"></i>
+</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+<!-- USER DASHBOARD -->
+<div id="dashboardPage" class="page-section hide">
+<div class="min-h-screen py-20 bg-slate-50 dark:bg-slate-900">
+<div class="max-w-7xl mx-auto px-4">
+<div class="mb-8 animate-slide-up">
+<h1 class="text-4xl font-black text-slate-800 dark:text-slate-100 mb-2">My Dashboard</h1>
+<p class="text-slate-600 dark:text-slate-400">Track your download history and statistics</p>
+</div>
+
+<!-- Stats Cards -->
+<div class="grid md:grid-cols-4 gap-6 mb-8">
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg card-3d animate-slide-up">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center"><i data-lucide="download" class="w-6 h-6 text-white"></i></div>
+<span class="text-3xl font-black text-slate-800 dark:text-slate-100" id="totalDownloads">0</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 font-medium">Total Downloads</p>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg card-3d animate-slide-up" style="animation-delay: 0.1s">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
+<svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+</div>
+<span class="text-3xl font-black text-slate-800 dark:text-slate-100" id="tiktokDownloads">0</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 font-medium">TikTok Videos</p>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg card-3d animate-slide-up" style="animation-delay: 0.2s">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center">
+<svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+</div>
+<span class="text-3xl font-black text-slate-800 dark:text-slate-100" id="youtubeDownloads">0</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 font-medium">YouTube Videos</p>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg card-3d animate-slide-up" style="animation-delay: 0.3s">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
+<svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+</div>
+<span class="text-3xl font-black text-slate-800 dark:text-slate-100" id="facebookDownloads">0</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 font-medium">Facebook Videos</p>
+</div>
+</div>
+
+<!-- Monthly Chart -->
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg mb-8 animate-slide-up">
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-4">Monthly Download Activity</h3>
+<canvas id="monthlyChart" height="100"></canvas>
+</div>
+
+<!-- Download History -->
+<div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-lg animate-slide-up">
+<div class="p-6 border-b border-slate-200 dark:border-slate-700">
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100">Download History</h3>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead class="bg-slate-50 dark:bg-slate-900/50">
+<tr>
+<th class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Date</th>
+<th class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Platform</th>
+<th class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Title</th>
+<th class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Quality</th>
+</tr>
+</thead>
+<tbody id="downloadHistory" class="divide-y divide-slate-200 dark:divide-slate-700">
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPage" class="page-section hide">
+<div class="min-h-screen py-20 bg-slate-50 dark:bg-slate-900">
+<div class="max-w-7xl mx-auto px-4">
+<div class="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4 animate-slide-up">
+<div>
+<h1 class="text-4xl font-black text-slate-800 dark:text-slate-100 mb-2">Admin Panel</h1>
+<p class="text-slate-600 dark:text-slate-400">Manage website, users, and view analytics</p>
+</div>
+<div class="flex flex-wrap gap-3">
+<button onclick="showAdminSection('overview')" id="btn-overview" class="admin-tab px-6 py-3 rounded-xl font-bold transition transform hover:scale-105 btn-active">Overview</button>
+<button onclick="showAdminSection('analytics')" id="btn-analytics" class="admin-tab px-6 py-3 rounded-xl font-bold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-2 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition transform hover:scale-105">Analytics</button>
+<button onclick="showAdminSection('blogs')" id="btn-blogs" class="admin-tab px-6 py-3 rounded-xl font-bold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-2 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition transform hover:scale-105">Blogs</button>
+<button onclick="showAdminSection('faq')" id="btn-faq" class="admin-tab px-6 py-3 rounded-xl font-bold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-2 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition transform hover:scale-105">FAQ</button>
+<button onclick="showAdminSection('users')" id="btn-users" class="admin-tab px-6 py-3 rounded-xl font-bold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-2 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition transform hover:scale-105">Users</button>
+</div>
+</div>
+
+<!-- Admin Overview -->
+<div id="adminOverview" class="admin-section animate-fade-in">
+<div class="grid md:grid-cols-4 gap-6 mb-8">
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg card-3d">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center"><i data-lucide="users" class="w-6 h-6 text-white"></i></div>
+<span class="text-3xl font-black text-slate-800 dark:text-slate-100" id="adminTotalUsers">0</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 font-medium">Total Users</p>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg card-3d">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center"><i data-lucide="eye" class="w-6 h-6 text-white"></i></div>
+<span class="text-3xl font-black text-slate-800 dark:text-slate-100" id="adminTodayVisitors">0</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 font-medium">Today's Visitors</p>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg card-3d">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center"><i data-lucide="download" class="w-6 h-6 text-white"></i></div>
+<span class="text-3xl font-black text-slate-800 dark:text-slate-100" id="adminTotalDownloads">0</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 font-medium">Total Downloads</p>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg card-3d">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center"><i data-lucide="trending-up" class="w-6 h-6 text-white"></i></div>
+<span class="text-3xl font-black text-slate-800 dark:text-slate-100" id="adminTodayDownloads">0</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 font-medium">Today's Downloads</p>
+</div>
+</div>
+
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg">
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-4">Daily Visitors (Last 7 Days)</h3>
+<canvas id="adminVisitorsChart" height="100"></canvas>
+</div>
+</div>
+
+<!-- Admin Analytics -->
+<div id="adminAnalytics" class="admin-section hide animate-fade-in">
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg mb-6">
+<div class="flex flex-wrap gap-4 mb-6">
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">From Date</label>
+<input type="date" id="analyticsFromDate" class="px-4 py-2 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 transition">
+</div>
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">To Date</label>
+<input type="date" id="analyticsToDate" class="px-4 py-2 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 transition">
+</div>
+<button onclick="filterAnalytics()" class="px-6 py-2 gradient-primary text-white rounded-xl font-bold hover:opacity-90 transition transform hover:scale-105 self-end shadow-lg">Filter</button>
+</div>
+
+<div class="grid md:grid-cols-3 gap-6 mb-6">
+<div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4">
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-1">Total Downloads</p>
+<p class="text-3xl font-black text-slate-800 dark:text-slate-100" id="filterTotalDownloads">0</p>
+</div>
+<div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4">
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-1">Unique Users</p>
+<p class="text-3xl font-black text-slate-800 dark:text-slate-100" id="filterUniqueUsers">0</p>
+</div>
+<div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4">
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-1">Most Used Platform</p>
+<p class="text-2xl font-black text-slate-800 dark:text-slate-100" id="filterMostUsed">-</p>
+</div>
+</div>
+
+<div class="grid md:grid-cols-2 gap-6">
+<div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4">
+<h4 class="font-bold text-slate-800 dark:text-slate-100 mb-4">Platform Usage</h4>
+<canvas id="platformUsageChart"></canvas>
+</div>
+<div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4">
+<h4 class="font-bold text-slate-800 dark:text-slate-100 mb-4">Daily Downloads</h4>
+<canvas id="dailyDownloadsChart"></canvas>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Admin Blogs -->
+<div id="adminBlogs" class="admin-section hide animate-fade-in">
+<div class="grid md:grid-cols-2 gap-6">
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg">
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-4">Add New Blog</h3>
+<form onsubmit="addBlog(event)" class="space-y-4">
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Blog Title</label>
+<input type="text" id="blogTitle" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition" placeholder="Enter blog title">
+</div>
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Blog Image URL</label>
+<input type="url" id="blogImage" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition" placeholder="https://example.com/image.jpg">
+</div>
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Content</label>
+<div id="blogEditor" class="border-2 border-slate-200 dark:border-slate-700 rounded-xl"></div>
+</div>
+<button type="submit" class="w-full gradient-primary text-white py-3 rounded-xl font-bold hover:opacity-90 transition transform hover:scale-[1.02] shadow-lg">Publish Blog</button>
+</form>
+</div>
+
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg">
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-4">Published Blogs</h3>
+<div id="blogsList" class="space-y-4 max-h-96 overflow-y-auto">
+</div>
+</div>
+</div>
+</div>
+
+<!-- Admin FAQ -->
+<div id="adminFaq" class="admin-section hide animate-fade-in">
+<div class="grid md:grid-cols-2 gap-6">
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg card-glow">
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-2">Add FAQ</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Add a question and its answer below. Saved FAQs automatically appear on the public FAQ page and as a preview on the homepage for your users.</p>
+<form onsubmit="addFAQ(event)" class="space-y-4">
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Question</label>
+<input type="text" id="faqQuestion" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition" placeholder="Enter question">
+</div>
+<div>
+<label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Answer</label>
+<textarea id="faqAnswer" required rows="4" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none bg-slate-50 dark:bg-slate-900 transition" placeholder="Enter answer"></textarea>
+</div>
+<button type="submit" class="w-full gradient-primary text-white py-3 rounded-xl font-bold hover:opacity-90 transition transform hover:scale-[1.02] shadow-lg">Save FAQ</button>
+</form>
+</div>
+
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg card-glow">
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-4">Manage FAQs</h3>
+<div id="faqList" class="space-y-3 max-h-96 overflow-y-auto">
+</div>
+</div>
+</div>
+</div>
+
+<!-- Admin Users -->
+<div id="adminUsers" class="admin-section hide animate-fade-in">
+<div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-lg">
+<div class="p-6 border-b border-slate-200 dark:border-slate-700">
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100">All Users</h3>
+</div>
+<table class="w-full">
+<thead class="bg-slate-50 dark:bg-slate-900/50">
+<tr>
+<th class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Name</th>
+<th class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Email</th>
+<th class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Role</th>
+<th class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Downloads</th>
+<th class="px-6 py-4 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Actions</th>
+</tr>
+</thead>
+<tbody id="usersTable" class="divide-y divide-slate-200 dark:divide-slate-700">
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- BLOGS PAGE -->
+<div id="blogsPage" class="page-section hide">
+<div class="min-h-screen py-20 bg-slate-50 dark:bg-slate-900">
+<div class="max-w-7xl mx-auto px-4">
+<div class="text-center mb-12">
+<h1 class="text-4xl md:text-5xl font-black text-slate-800 dark:text-slate-100 mb-4 animate-slide-up">Our Blog</h1>
+<p class="text-lg text-slate-600 dark:text-slate-400 animate-slide-up">Latest news and updates</p>
+</div>
+<div id="blogsDisplay" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+</div>
+</div>
+</div>
+</div>
+
+<!-- FAQ PAGE -->
+<div id="faqPage" class="page-section hide">
+<div class="min-h-screen py-20 bg-slate-50 dark:bg-slate-900">
+<div class="max-w-4xl mx-auto px-4">
+<div class="text-center mb-12">
+<h1 class="text-4xl md:text-5xl font-black text-slate-800 dark:text-slate-100 mb-4 animate-slide-up">Frequently Asked Questions</h1>
+<p class="text-lg text-slate-600 dark:text-slate-400 animate-slide-up">Find answers to common questions</p>
+</div>
+<div id="faqDisplay" class="space-y-4">
+</div>
+</div>
+</div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-slate-900 dark:bg-slate-950 text-white py-12 mt-20">
+<div class="max-w-7xl mx-auto px-4 text-center">
+<div class="flex items-center justify-center space-x-3 mb-4">
+<div class="w-10 h-10">
+<img src="assets/logo.png" alt="Video Freeway Logo" class="w-full h-full object-contain">
+</div>
+<span class="text-2xl font-black gradient-text">Video Freeway</span>
+</div>
+<p class="text-slate-400 text-sm mb-2">&copy; 2026 Video Freeway. All rights reserved.</p>
+<p class="text-slate-500 text-xs">Not affiliated with TikTok, YouTube, Facebook, or Pinterest.</p>
+</div>
+</footer>
+
+<script>
+// Initialize
+let currentPlatform = 'tiktok';
+let detectedPlatform = null;
+let videoData = null;
+let currentUser = null;
+let quill = null;
+let currentAdminSection = 'overview';
+
+const ADMIN_EMAIL = 'syedmanzarkazmi3@gmail.com';
+const ADMIN_PASSWORD = '3@gmail.com';
+
+// Initialize Data
+function initData() {
+if (!localStorage.getItem('vf_users')) {
+localStorage.setItem('vf_users', JSON.stringify([
+{ email: ADMIN_EMAIL, password: ADMIN_PASSWORD, name: 'Admin', role: 'admin', downloads: [] }
+]));
+}
+if (!localStorage.getItem('vf_blogs')) localStorage.setItem('vf_blogs', JSON.stringify([]));
+if (!localStorage.getItem('vf_faqs')) localStorage.setItem('vf_faqs', JSON.stringify([
+{ id: 1, q: 'How do I download videos?', a: 'Simply paste the video URL, click Analyze, and then select your preferred quality to download.' },
+{ id: 2, q: 'Is it free?', a: 'Yes! 100% free with no registration required.' },
+{ id: 3, q: 'Where are videos saved?', a: 'Videos are saved to your device Downloads folder or Gallery.' }
+]));
+if (!localStorage.getItem('vf_analytics')) localStorage.setItem('vf_analytics', JSON.stringify({ visitors: {}, downloads: [] }));
+if (!localStorage.getItem('vf_theme')) localStorage.setItem('vf_theme', 'light');
+}
+
+// Theme Toggle
+// Platform Patterns
+const platformPatterns = {
+tiktok: /^(https?:\/\/)?(www\.)?(tiktok\.com|vm\.tiktok\.com|vt\.tiktok\.com)\/.+/i,
+youtube: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|youtube\.com\/shorts)\/.+/i,
+facebook: /^(https?:\/\/)?(www\.)?(facebook\.com|fb\.watch|fb\.com)\/.+/i
+};
+
+const platformNames = { tiktok: 'TikTok', youtube: 'YouTube', facebook: 'Facebook' };
+
+// Switch Platform
+function switchPlatform(platform) {
+currentPlatform = platform;
+document.querySelectorAll('.platform-pill').forEach(pill => {
+if (pill.dataset.platform === platform) {
+pill.classList.add('border-orange-500', 'active');
+pill.classList.remove('border-slate-200', 'dark:border-slate-700');
+} else {
+pill.classList.remove('border-orange-500', 'active');
+pill.classList.add('border-slate-200', 'dark:border-slate-700');
+}
+});
+document.getElementById('mismatchAlert').classList.add('hidden');
+document.getElementById('resultCard').classList.add('hidden');
+}
+
+// Validate URL
+function validateUrl() {
+const url = document.getElementById('videoUrl').value.trim();
+const alertDiv = document.getElementById('mismatchAlert');
+if (!url) { alertDiv.classList.add('hidden'); return; }
+let detected = null;
+for (const [platform, pattern] of Object.entries(platformPatterns)) {
+if (pattern.test(url)) { detected = platform; break; }
+}
+if (detected && detected !== currentPlatform) {
+detectedPlatform = detected;
+document.getElementById('mismatchText').textContent = `Link Detected: This appears to be a ${platformNames[detected]} URL, but you have selected ${platformNames[currentPlatform]}.`;
+document.getElementById('detectedPlatformName').textContent = platformNames[detected];
+alertDiv.classList.remove('hidden');
+} else {
+alertDiv.classList.add('hidden');
+}
+}
+
+function clearInput() {
+document.getElementById('videoUrl').value = '';
+document.getElementById('mismatchAlert').classList.add('hidden');
+document.getElementById('resultCard').classList.add('hidden');
+videoData = null;
+}
+
+function clearMismatch() {
+document.getElementById('mismatchAlert').classList.add('hidden');
+detectedPlatform = null;
+}
+
+function switchToDetectedPlatform() {
+if (detectedPlatform) switchPlatform(detectedPlatform);
+}
+
+// Analyze Video
+function extractYouTubeId(url) {
+const patterns = [
+/(?:youtube\.com\/watch\?v=|youtube\.com\/shorts\/|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/live\/)([a-zA-Z0-9_-]{11})/
+];
+for (const p of patterns) {
+const m = url.match(p);
+if (m) return m[1];
+}
+return null;
+}
+
+async function analyzeVideo() {
+const url = document.getElementById('videoUrl').value.trim();
+if (!url) { alert('Please enter a video URL'); return; }
+const pattern = platformPatterns[currentPlatform];
+if (!pattern.test(url)) { alert(`Please enter a valid ${platformNames[currentPlatform]} URL`); return; }
+
+document.getElementById('loadingState').classList.remove('hidden');
+document.getElementById('resultCard').classList.add('hidden');
+
+try {
+let data;
+if (currentPlatform === 'tiktok') {
+const res = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`);
+const json = await res.json();
+if (json.code === 0 && json.data) {
+const dur = json.data.duration || 0;
+data = {
+thumbnail: json.data.cover,
+title: json.data.title || 'TikTok Video',
+author: json.data.author?.nickname || '@' + (json.data.author?.unique_id || 'unknown'),
+duration: `${Math.floor(dur/60)}:${(dur%60).toString().padStart(2,'0')}`,
+videoUrl: json.data.hdplay || json.data.play,
+audioUrl: json.data.music,
+platform: 'TikTok'
+};
+} else throw new Error('Video not found');
+} else if (currentPlatform === 'youtube') {
+const videoId = extractYouTubeId(url);
+let meta = null;
+try {
+const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`);
+if (res.ok) {
+const json = await res.json();
+if (json && (json.title || json.thumbnail_url)) meta = json;
+}
+} catch (e) {}
+if (!meta) {
+try {
+const res2 = await fetch(`https://noembed.com/embed?url=${encodeURIComponent(url)}`);
+if (res2.ok) {
+const json2 = await res2.json();
+if (json2 && !json2.error && (json2.title || json2.thumbnail_url)) meta = json2;
+}
+} catch (e) {}
+}
+if (!meta && videoId) {
+meta = {
+title: 'YouTube Video',
+author_name: 'YouTube',
+thumbnail_url: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+};
+}
+if (!meta) {
+throw new Error('Video not found. Please check the URL and try again.');
+}
+data = {
+thumbnail: meta.thumbnail_url,
+title: meta.title || 'YouTube Video',
+author: meta.author_name || 'YouTube Creator',
+duration: 'Watch on YouTube',
+videoUrl: url,
+audioUrl: url,
+platform: 'YouTube'
+};
+} else if (currentPlatform === 'facebook') {
+try {
+const res = await fetch(`/.netlify/functions/facebook?url=${encodeURIComponent(url)}`);
+const json = await res.json();
+if (res.ok && json && json.videoUrl) {
+data = {
+thumbnail: json.thumbnail,
+title: json.title || 'Facebook Video',
+author: json.author || '@facebook',
+duration: json.duration || '0:00',
+videoUrl: json.videoUrl,
+audioUrl: json.audioUrl || null,
+platform: 'Facebook'
+};
+} else {
+throw new Error(json && json.error ? json.error : 'Video not found');
+}
+} catch (e) { throw new Error(e && e.message ? e.message : 'Video not found'); }
+}
+
+if (data) {
+videoData = data;
+document.getElementById('videoThumbnail').src = data.thumbnail;
+document.getElementById('videoTitle').textContent = data.title;
+document.getElementById('videoAuthor').querySelector('span').textContent = data.author;
+document.getElementById('durationBadge').textContent = data.duration;
+document.getElementById('platformTag').textContent = data.platform;
+document.getElementById('resultCard').classList.remove('hidden');
+lucide.createIcons();
+
+trackDownload(currentPlatform, data.title);
+
+setTimeout(() => document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+} else {
+throw new Error('Video not found');
+}
+} catch (error) {
+alert(error && error.message ? error.message : 'Failed to fetch video. Please check the URL and try again.');
+} finally {
+document.getElementById('loadingState').classList.add('hidden');
+}
+}
+
+// Track Download
+function trackDownload(platform, title) {
+const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
+const analytics = JSON.parse(localStorage.getItem('vf_analytics') || '{}');
+const today = new Date().toISOString().split('T')[0];
+
+if (currentUser) {
+const userIndex = users.findIndex(u => u.email === currentUser.email);
+if (userIndex >= 0) {
+users[userIndex].downloads.push({ platform, title, date: new Date().toISOString(), quality: '1080p' });
+localStorage.setItem('vf_users', JSON.stringify(users));
+}
+}
+
+analytics.downloads = analytics.downloads || [];
+analytics.downloads.push({ platform, title, date: new Date().toISOString(), user: currentUser?.email || 'anonymous' });
+analytics.visitors = analytics.visitors || {};
+analytics.visitors[today] = (analytics.visitors[today] || 0) + 1;
+localStorage.setItem('vf_analytics', JSON.stringify(analytics));
+}
+
+// Download Video
+async function downloadVideo(quality) {
+if (!videoData || !videoData.videoUrl) { alert('No video available'); return; }
+if (videoData.platform === 'YouTube') {
+window.open(videoData.videoUrl, '_blank');
+return;
+}
+try {
+const response = await fetch(videoData.videoUrl);
+const blob = await response.blob();
+const blobUrl = window.URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = blobUrl;
+a.download = `${videoData.platform}_${quality}.mp4`;
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+window.URL.revokeObjectURL(blobUrl);
+} catch (error) {
+window.open(videoData.videoUrl, '_blank');
+}
+}
+
+async function downloadAudio() {
+if (!videoData || !videoData.audioUrl) { alert('Audio not available'); return; }
+if (videoData.platform === 'YouTube') {
+window.open(videoData.videoUrl, '_blank');
+return;
+}
+try {
+const response = await fetch(videoData.audioUrl);
+const blob = await response.blob();
+const blobUrl = window.URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = blobUrl;
+a.download = `${videoData.platform}_audio.mp3`;
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+window.URL.revokeObjectURL(blobUrl);
+} catch (error) {
+window.open(videoData.audioUrl, '_blank');
+}
+}
+
+// Auth Functions
+function showPage(page) {
+document.querySelectorAll('.page-section').forEach(p => p.classList.add('hide'));
+if (page === 'home') document.getElementById('homePage').classList.remove('hide');
+else if (page === 'auth') {
+if (currentUser) { showPage('dashboard'); return; }
+document.getElementById('authPage').classList.remove('hide');
+}
+else if (page === 'dashboard') {
+if (!currentUser) { showPage('auth'); return; }
+document.getElementById('dashboardPage').classList.remove('hide');
+loadUserDashboard();
+} else if (page === 'admin') {
+if (!currentUser || currentUser.role !== 'admin') { alert('Access denied'); return; }
+document.getElementById('adminPage').classList.remove('hide');
+loadAdminPanel();
+} else if (page === 'blogs') {
+document.getElementById('blogsPage').classList.remove('hide');
+loadBlogs();
+} else if (page === 'faq') {
+document.getElementById('faqPage').classList.remove('hide');
+loadFAQs();
+} else if (page === 'grantAccess') {
+if (!currentUser) { showPage('auth'); return; }
+document.getElementById('grantAccessPage').classList.remove('hide');
+}
+window.scrollTo(0, 0);
+lucide.createIcons();
+}
+
+function handleLogin(e) {
+e.preventDefault();
+const email = document.getElementById('loginEmail').value;
+const password = document.getElementById('loginPassword').value;
+const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
+const user = users.find(u => u.email === email && u.password === password);
+
+if (user) {
+currentUser = user;
+updateAuthUI();
+alert('Welcome back, ' + user.name + '!');
+showPage('dashboard');
+} else {
+alert('Incorrect email or password!');
+}
+}
+
+function handleSignUp(e) {
+e.preventDefault();
+const name = document.getElementById('signUpName').value;
+const email = document.getElementById('signUpEmail').value;
+const password = document.getElementById('signUpPassword').value;
+const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
+
+if (users.find(u => u.email === email)) {
+alert('Email already registered!');
+return;
+}
+
+const newUser = { email, password, name, role: 'viewer', downloads: [] };
+users.push(newUser);
+localStorage.setItem('vf_users', JSON.stringify(users));
+currentUser = newUser;
+updateAuthUI();
+alert('Account created successfully!');
+showPage('dashboard');
+}
+
+function handleForgotPassword(e) {
+e.preventDefault();
+const email = document.getElementById('resetEmail').value;
+const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
+const user = users.find(u => u.email === email);
+
+if (!user) {
+alert('Email not found!');
+return;
+}
+
+const code = Math.floor(100000 + Math.random() * 900000).toString();
+localStorage.setItem('vf_reset_code', JSON.stringify({ email, code, time: Date.now() }));
+
+alert(`Verification code: ${code}\n\n(Note: In production, this would be sent to your email)`);
+document.getElementById('forgotPasswordForm').classList.add('hide');
+document.getElementById('backToLogin2').classList.add('hide');
+document.getElementById('resetPasswordForm').classList.remove('hide');
+document.getElementById('backToLogin3').classList.remove('hide');
+}
+
+function handleResetPassword(e) {
+e.preventDefault();
+const code = document.getElementById('resetCode').value;
+const newPassword = document.getElementById('newPassword').value;
+const resetData = JSON.parse(localStorage.getItem('vf_reset_code') || '{}');
+
+if (!resetData.code || resetData.code !== code) {
+alert('Invalid code!');
+return;
+}
+
+if (Date.now() - resetData.time > 300000) {
+alert('Code expired! Request a new one.');
+return;
+}
+
+const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
+const userIndex = users.findIndex(u => u.email === resetData.email);
+if (userIndex >= 0) {
+users[userIndex].password = newPassword;
+localStorage.setItem('vf_users', JSON.stringify(users));
+alert('Password reset successfully!');
+showLogin();
+}
+}
+
+function showLogin() {
+document.getElementById('loginForm').classList.remove('hide');
+document.getElementById('signUpForm').classList.add('hide');
+document.getElementById('forgotPasswordForm').classList.add('hide');
+document.getElementById('resetPasswordForm').classList.add('hide');
+document.getElementById('backToLogin').classList.add('hide');
+document.getElementById('backToLogin2').classList.add('hide');
+document.getElementById('backToLogin3').classList.add('hide');
+}
+
+function showSignUp() {
+document.getElementById('loginForm').classList.add('hide');
+document.getElementById('signUpForm').classList.remove('hide');
+document.getElementById('backToLogin').classList.remove('hide');
+}
+
+function showForgotPassword() {
+document.getElementById('loginForm').classList.add('hide');
+document.getElementById('forgotPasswordForm').classList.remove('hide');
+document.getElementById('backToLogin2').classList.remove('hide');
+}
+
+function logout() {
+currentUser = null;
+updateAuthUI();
+showPage('home');
+}
+
+function updateAuthUI() {
+const authButtons = document.getElementById('authButtons');
+const userMenu = document.getElementById('userMenu');
+const userNameDisplay = document.getElementById('userNameDisplay');
+const adminLink = document.getElementById('adminLink');
+const grantAccessLink = document.getElementById('grantAccessLink');
+const mobileAuthButtons = document.getElementById('mobileAuthButtons');
+const mobileUserMenu = document.getElementById('mobileUserMenu');
+const mobileUserName = document.getElementById('mobileUserName');
+const mobileAdminLink = document.getElementById('mobileAdminLink');
+const mobileGrantAccessLink = document.getElementById('mobileGrantAccessLink');
+
+if (currentUser) {
+authButtons.classList.add('hide');
+userMenu.classList.remove('hidden');
+userNameDisplay.textContent = currentUser.name;
+if (currentUser.role === 'admin') {
+adminLink.classList.remove('hidden');
+if (grantAccessLink) grantAccessLink.classList.remove('hidden');
+} else {
+adminLink.classList.add('hidden');
+if (grantAccessLink) grantAccessLink.classList.add('hidden');
+}
+
+if (mobileAuthButtons) mobileAuthButtons.classList.add('hide');
+if (mobileUserMenu) {
+mobileUserMenu.classList.remove('hidden');
+mobileUserName.textContent = currentUser.name;
+}
+if (mobileAdminLink) {
+if (currentUser.role === 'admin') mobileAdminLink.classList.remove('hidden');
+else mobileAdminLink.classList.add('hidden');
+}
+if (mobileGrantAccessLink) {
+if (currentUser.role === 'admin') mobileGrantAccessLink.classList.remove('hidden');
+else mobileGrantAccessLink.classList.add('hidden');
+}
+} else {
+authButtons.classList.remove('hide');
+userMenu.classList.add('hidden');
+if (mobileAuthButtons) mobileAuthButtons.classList.remove('hide');
+if (mobileUserMenu) mobileUserMenu.classList.add('hidden');
+}
+}
+
+function toggleUserMenu(event) {
+if (event) event.stopPropagation();
+const dropdown = document.getElementById('userDropdown');
+const icon = document.getElementById('userMenuIcon');
+dropdown.classList.toggle('hidden');
+if (!dropdown.classList.contains('hidden')) {
+icon.style.transform = 'rotate(180deg)';
+} else {
+icon.style.transform = 'rotate(0deg)';
+}
+}
+
+function closeUserMenu() {
+const dropdown = document.getElementById('userDropdown');
+const icon = document.getElementById('userMenuIcon');
+dropdown.classList.add('hidden');
+icon.style.transform = 'rotate(0deg)';
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+const userMenu = document.getElementById('userMenu');
+const dropdown = document.getElementById('userDropdown');
+if (userMenu && !userMenu.contains(event.target)) {
+closeUserMenu();
+}
+});
+
+function showGrantAccess() {
+if (!currentUser || currentUser.role !== 'admin') { alert('Access denied. Admin only.'); return; }
+showPage('grantAccess');
+}
+
+function handleGrantAccess(e) {
+e.preventDefault();
+const email = document.getElementById('grantEmail').value;
+const role = document.getElementById('grantRole').value;
+
+// Create prompt
+const prompt = document.createElement('div');
+prompt.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 prompt';
+prompt.innerHTML = `
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-md mx-4 text-center animate-scale-in shadow-2xl">
+<div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+<i data-lucide="check" class="w-8 h-8 text-white"></i>
+</div>
+<h3 class="text-2xl font-black text-slate-800 dark:text-slate-100 mb-2">Invitation Sent!</h3>
+<p class="text-slate-600 dark:text-slate-400 mb-6">Access request has been sent to <strong>${email}</strong> as <strong>${role}</strong>.</p>
+<button onclick="this.closest('.prompt').remove(); showPage('dashboard')" class="gradient-primary text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition">OK</button>
+</div>
+`;
+document.body.appendChild(prompt);
+lucide.createIcons();
+
+document.getElementById('grantEmail').value = '';
+}
+
+// User Dashboard
+function loadUserDashboard() {
+if (!currentUser) return;
+
+const downloads = currentUser.downloads || [];
+const total = downloads.length;
+const tiktok = downloads.filter(d => d.platform === 'tiktok').length;
+const youtube = downloads.filter(d => d.platform === 'youtube').length;
+const facebook = downloads.filter(d => d.platform === 'facebook').length;
+
+document.getElementById('totalDownloads').textContent = total;
+document.getElementById('tiktokDownloads').textContent = tiktok;
+document.getElementById('youtubeDownloads').textContent = youtube;
+document.getElementById('facebookDownloads').textContent = facebook;
+
+const months = {};
+downloads.forEach(d => {
+const month = d.date.substring(0, 7);
+months[month] = (months[month] || 0) + 1;
+});
+
+const ctx = document.getElementById('monthlyChart').getContext('2d');
+new Chart(ctx, {
+type: 'line',
+data: {
+labels: Object.keys(months).sort(),
+datasets: [{
+label: 'Downloads',
+data: Object.keys(months).sort().map(m => months[m]),
+borderColor: '#f97316',
+backgroundColor: 'rgba(249, 115, 22, 0.1)',
+fill: true,
+tension: 0.4
+}]
+},
+options: { responsive: true, plugins: { legend: { display: false } } }
+});
+
+const tbody = document.getElementById('downloadHistory');
+tbody.innerHTML = downloads.slice().reverse().map(d => `
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition">
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${new Date(d.date).toLocaleDateString()}</td>
+<td class="px-6 py-4"><span class="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-full text-xs font-bold">${d.platform}</span></td>
+<td class="px-6 py-4 text-sm text-slate-800 dark:text-slate-200">${d.title}</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${d.quality}</td>
+</tr>
+`).join('') || '<tr><td colspan="4" class="px-6 py-4 text-center text-slate-500">No downloads yet</td></tr>';
+}
+
+// Admin Panel
+function loadAdminPanel() {
+const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
+const analytics = JSON.parse(localStorage.getItem('vf_analytics') || '{}');
+const today = new Date().toISOString().split('T')[0];
+
+document.getElementById('adminTotalUsers').textContent = users.length;
+document.getElementById('adminTodayVisitors').textContent = analytics.visitors[today] || 0;
+document.getElementById('adminTotalDownloads').textContent = analytics.downloads?.length || 0;
+document.getElementById('adminTodayDownloads').textContent = (analytics.downloads || []).filter(d => d.date.startsWith(today)).length;
+
+const last7Days = [];
+for (let i = 6; i >= 0; i--) {
+const d = new Date();
+d.setDate(d.getDate() - i);
+last7Days.push(d.toISOString().split('T')[0]);
+}
+
+const ctx = document.getElementById('adminVisitorsChart').getContext('2d');
+new Chart(ctx, {
+type: 'bar',
+data: {
+labels: last7Days,
+datasets: [{
+label: 'Visitors',
+data: last7Days.map(d => analytics.visitors[d] || 0),
+backgroundColor: '#f97316',
+borderRadius: 8
+}]
+},
+options: { responsive: true, plugins: { legend: { display: false } } }
+});
+
+loadUsers();
+loadBlogs();
+loadFAQs();
+}
+
+function showAdminSection(section) {
+currentAdminSection = section;
+// Update all buttons
+document.querySelectorAll('.admin-tab').forEach(btn => {
+btn.classList.remove('btn-active');
+btn.classList.add('bg-white', 'dark:bg-slate-800', 'text-slate-800', 'dark:text-slate-100', 'border-2', 'border-slate-200', 'dark:border-slate-700');
+});
+// Activate current button
+const activeBtn = document.getElementById('btn-' + section);
+if (activeBtn) {
+activeBtn.classList.add('btn-active');
+activeBtn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-slate-800', 'dark:text-slate-100', 'border-2', 'border-slate-200', 'dark:border-slate-700');
+}
+
+// Hide all sections
+document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hide'));
+// Show current section
+document.getElementById('admin' + section.charAt(0).toUpperCase() + section.slice(1)).classList.remove('hide');
+
+// Load data for the section
+if (section === 'blogs') loadBlogs();
+if (section === 'faq') loadFAQs();
+if (section === 'users') loadUsers();
+}
+
+function loadUsers() {
+const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
+const tbody = document.getElementById('usersTable');
+if (!tbody) return;
+tbody.innerHTML = users.map(u => `
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition">
+<td class="px-6 py-4 text-sm font-medium text-slate-800 dark:text-slate-200">${u.name}</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${u.email}</td>
+<td class="px-6 py-4"><span class="px-3 py-1 ${u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'} rounded-full text-xs font-bold">${u.role}</span></td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${u.downloads?.length || 0}</td>
+<td class="px-6 py-4">
+${u.email !== ADMIN_EMAIL ? `
+<button onclick="changeUserRole('${u.email}', '${u.role === 'viewer' ? 'manager' : 'viewer'}')" class="text-primary-600 hover:text-primary-700 text-sm font-bold transition">Make ${u.role === 'viewer' ? 'Manager' : 'Viewer'}</button>
+` : '-'}
+</td>
+</tr>
+`).join('');
+}
+
+function changeUserRole(email, newRole) {
+const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
+const idx = users.findIndex(u => u.email === email);
+if (idx >= 0) {
+users[idx].role = newRole;
+localStorage.setItem('vf_users', JSON.stringify(users));
+loadUsers();
+}
+}
+
+function filterAnalytics() {
+const from = document.getElementById('analyticsFromDate').value;
+const to = document.getElementById('analyticsToDate').value;
+const analytics = JSON.parse(localStorage.getItem('vf_analytics') || '{}');
+
+let filtered = (analytics.downloads || []).filter(d => {
+const date = d.date.split('T')[0];
+return (!from || date >= from) && (!to || date <= to);
+});
+
+document.getElementById('filterTotalDownloads').textContent = filtered.length;
+document.getElementById('filterUniqueUsers').textContent = [...new Set(filtered.map(d => d.user))].length;
+
+const platforms = {};
+filtered.forEach(d => { platforms[d.platform] = (platforms[d.platform] || 0) + 1; });
+const mostUsed = Object.entries(platforms).sort((a,b) => b[1] - a[1])[0];
+document.getElementById('filterMostUsed').textContent = mostUsed ? mostUsed[0] : '-';
+
+const pCtx = document.getElementById('platformUsageChart').getContext('2d');
+new Chart(pCtx, {
+type: 'doughnut',
+data: {
+labels: Object.keys(platforms),
+datasets: [{ data: Object.values(platforms), backgroundColor: ['#f97316', '#dc2626', '#2563eb'] }]
+},
+options: { responsive: true }
+});
+
+const daily = {};
+filtered.forEach(d => {
+const date = d.date.split('T')[0];
+daily[date] = (daily[date] || 0) + 1;
+});
+
+const dCtx = document.getElementById('dailyDownloadsChart').getContext('2d');
+new Chart(dCtx, {
+type: 'line',
+data: {
+labels: Object.keys(daily).sort(),
+datasets: [{ label: 'Downloads', data: Object.keys(daily).sort().map(d => daily[d]), borderColor: '#f97316', tension: 0.4 }]
+},
+options: { responsive: true }
+});
+}
+
+// Blogs
+function initQuill() {
+if (!quill) {
+quill = new Quill('#blogEditor', {
+theme: 'snow',
+modules: { toolbar: [['bold', 'italic', 'underline'], [{ 'header': [1, 2, 3, false] }], [{ 'color': [] }, { 'background': [] }], [{ 'size': ['small', false, 'large', 'huge'] }], ['link', 'image'], ['clean']] }
+});
+}
+}
+
+function addBlog(e) {
+e.preventDefault();
+const title = document.getElementById('blogTitle').value;
+const image = document.getElementById('blogImage').value;
+const content = quill.root.innerHTML;
+const blogs = JSON.parse(localStorage.getItem('vf_blogs') || '[]');
+
+blogs.push({ id: Date.now(), title, image, content, date: new Date().toISOString() });
+localStorage.setItem('vf_blogs', JSON.stringify(blogs));
+
+document.getElementById('blogTitle').value = '';
+document.getElementById('blogImage').value = '';
+quill.root.innerHTML = '';
+loadBlogs();
+alert('Blog published!');
+}
+
+function loadBlogs() {
+const blogs = JSON.parse(localStorage.getItem('vf_blogs') || '[]');
+
+const listDiv = document.getElementById('blogsList');
+if (listDiv) {
+listDiv.innerHTML = blogs.map(b => `
+<div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl animate-slide-up">
+<h4 class="font-bold text-slate-800 dark:text-slate-100 mb-2">${b.title}</h4>
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-2">${new Date(b.date).toLocaleDateString()}</p>
+<button onclick="deleteBlog(${b.id})" class="text-red-600 text-sm font-bold transition hover:underline">Delete</button>
+</div>
+`).join('') || '<p class="text-slate-500 text-sm">No blogs yet.</p>';
+}
+
+const displayDiv = document.getElementById('blogsDisplay');
+if (displayDiv) {
+displayDiv.innerHTML = blogs.map(b => `
+<div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-lg card-3d animate-slide-up">
+${b.image ? `<img src="${b.image}" class="w-full h-48 object-cover">` : ''}
+<div class="p-6">
+<h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-2">${b.title}</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-4">${new Date(b.date).toLocaleDateString()}</p>
+<div class="prose dark:prose-invert max-w-none">${b.content}</div>
+</div>
+</div>
+`).join('') || '<p class="text-center text-slate-600 dark:text-slate-400 col-span-3">No blogs yet.</p>';
+}
+}
+
+function deleteBlog(id) {
+if (!confirm('Delete this blog?')) return;
+const blogs = JSON.parse(localStorage.getItem('vf_blogs') || '[]');
+const filtered = blogs.filter(b => b.id !== id);
+localStorage.setItem('vf_blogs', JSON.stringify(filtered));
+loadBlogs();
+}
+
+// FAQ
+function addFAQ(e) {
+e.preventDefault();
+const q = document.getElementById('faqQuestion').value;
+const a = document.getElementById('faqAnswer').value;
+const faqs = JSON.parse(localStorage.getItem('vf_faqs') || '[]');
+
+faqs.push({ id: Date.now(), q, a });
+localStorage.setItem('vf_faqs', JSON.stringify(faqs));
+
+document.getElementById('faqQuestion').value = '';
+document.getElementById('faqAnswer').value = '';
+loadFAQs();
+
+// Show success prompt
+const prompt = document.createElement('div');
+prompt.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 prompt';
+prompt.innerHTML = `
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-md mx-4 text-center animate-scale-in shadow-2xl">
+<div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+<i data-lucide="check" class="w-8 h-8 text-white"></i>
+</div>
+<h3 class="text-2xl font-black text-slate-800 dark:text-slate-100 mb-2">Saved!</h3>
+<p class="text-slate-600 dark:text-slate-400 mb-6">FAQ has been added successfully and is now visible on the landing page.</p>
+<button onclick="this.closest('.prompt').remove()" class="gradient-primary text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition">OK</button>
+</div>
+`;
+document.body.appendChild(prompt);
+lucide.createIcons();
+}
+
+function loadFAQs() {
+const faqs = JSON.parse(localStorage.getItem('vf_faqs') || '[]');
+
+const listDiv = document.getElementById('faqList');
+if (listDiv) {
+listDiv.innerHTML = faqs.map(f => `
+<div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl animate-slide-up">
+<p class="font-bold text-slate-800 dark:text-slate-100 mb-1">${f.q}</p>
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-2">${f.a}</p>
+<button onclick="deleteFAQ(${f.id})" class="text-red-600 text-sm font-bold transition hover:underline">Delete</button>
+</div>
+`).join('');
+}
+
+const displayDiv = document.getElementById('faqDisplay');
+if (displayDiv) {
+displayDiv.innerHTML = faqs.map(f => `
+<div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden animate-slide-up card-3d">
+<button onclick="toggleFAQ(${f.id})" class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-900/50 transition">
+<span class="font-bold text-lg text-slate-800 dark:text-slate-100">${f.q}</span>
+<i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="faq-icon-${f.id}"></i>
+</button>
+<div id="faq-content-${f.id}" class="hidden px-6 pb-5 text-slate-600 dark:text-slate-400">${f.a}</div>
+</div>
+`).join('');
+}
+
+// Homepage FAQ preview (first 4)
+const previewDiv = document.getElementById('homeFaqPreview');
+const emptyDiv = document.getElementById('homeFaqEmpty');
+if (previewDiv) {
+const preview = faqs.slice(0, 4);
+previewDiv.innerHTML = preview.map((f, idx) => `
+<div class="faq-preview-card bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden animate-slide-up" style="animation-delay: ${idx * 0.08}s">
+<button onclick="toggleFAQ('home-${f.id}')" class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+<span class="font-bold text-lg text-slate-800 dark:text-slate-100">${f.q}</span>
+<i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="faq-icon-home-${f.id}"></i>
+</button>
+<div id="faq-content-home-${f.id}" class="hidden px-6 pb-5 text-slate-600 dark:text-slate-400">${f.a}</div>
+</div>
+`).join('');
+if (emptyDiv) emptyDiv.classList.toggle('hidden', preview.length > 0);
+}
+lucide.createIcons();
+}
+
+function toggleFAQ(id) {
+const content = document.getElementById(`faq-content-${id}`);
+const icon = document.getElementById(`faq-icon-${id}`);
+content.classList.toggle('hidden');
+icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+
+function deleteFAQ(id) {
+if (!confirm('Delete this FAQ?')) return;
+const faqs = JSON.parse(localStorage.getItem('vf_faqs') || '[]');
+const filtered = faqs.filter(f => f.id !== id);
+localStorage.setItem('vf_faqs', JSON.stringify(filtered));
+loadFAQs();
+}
+
+// Initialize
+window.onload = function() {
+initData();
+applyTheme();
+initQuill();
+const requestedPage = new URLSearchParams(window.location.search).get('page');
+const validPages = ['home', 'blogs', 'faq', 'auth', 'dashboard', 'admin'];
+showPage(validPages.includes(requestedPage) ? requestedPage : 'home');
+loadFAQs();
+renderReviews();
+lucide.createIcons();
+};
+</script>
+</body>
+</html>

@@ -51,22 +51,31 @@ exports.handler = async (event) => {
   try {
     const finalUrl = await resolveRedirect(url);
 
-    // Try each strategy in turn until one produces a real video URL.
+    // Try every strategy and keep the best result across all of them,
+    // instead of stopping at the first one that finds *any* video URL —
+    // an early attempt might only turn up a lower-quality match while a
+    // later attempt finds the real HD source.
     const attempts = [
       () => fetchAndExtract(finalUrl, BROWSER_HEADERS),
       () => fetchAndExtract(toMobileUrl(finalUrl), MOBILE_HEADERS),
       () => fetchAndExtract(toEmbedUrl(finalUrl), BROWSER_HEADERS),
     ];
 
+    const qualityRank = { hd: 3, sd: 2, generic: 1 };
     let best = null;
     for (const attempt of attempts) {
       try {
         const data = await attempt();
-        if (data && data.videoUrl) {
+        if (!data) continue;
+        if (!best) {
           best = data;
-          break;
+        } else if (data.videoUrl && (!best.videoUrl || qualityRank[data.quality] > qualityRank[best.quality])) {
+          best = data;
+        } else if (!best.thumbnail && data.thumbnail) {
+          best.thumbnail = data.thumbnail;
         }
-        if (data && !best) best = data;
+        // Once we've found a true HD match, no need to keep trying.
+        if (best.quality === 'hd') break;
       } catch (e) {
         // Ignore and try the next strategy.
       }
@@ -185,8 +194,20 @@ function findAnyMp4Url(html) {
   // specific patterns above miss.
   const matches = html.match(/https:\\?\/\\?\/[^"'\s]*?\.mp4[^"'\s\\]*/g);
   if (!matches || !matches.length) return null;
-  const fbcdn = matches.find((m) => /fbcdn\.net|video\.[a-z0-9.-]*\.fbcdn/i.test(m));
-  return fbcdn || matches[0];
+  const fbcdnMatches = matches.filter((m) => /fbcdn\.net|video\.[a-z0-9.-]*\.fbcdn/i.test(m));
+  const pool = fbcdnMatches.length ? fbcdnMatches : matches;
+  // Prefer URLs that hint at a higher resolution / the "normal" (not
+  // trimmed/thumbnail) encode, since Facebook sometimes embeds a small
+  // preview clip URL alongside the real one.
+  const scored = pool.map((m) => {
+    let score = 0;
+    if (/_n\.mp4/i.test(m)) score += 3; // "normal" quality encode
+    if (/1080|720/i.test(m)) score += 2;
+    if (/_t\.mp4|thumb|preview/i.test(m)) score -= 3;
+    return { url: m, score };
+  });
+  scored.sort((a, b) => b.score - a.score);
+  return scored[0].url;
 }
 
 function extractVideoData(html) {
@@ -207,8 +228,20 @@ function extractVideoData(html) {
     /<video[^>]+src="(.*?)"/,
     /data-store="[^"]*?&quot;src&quot;:&quot;(.*?)&quot;/,
   ]);
+  const generic = findAnyMp4Url(html);
 
-  const videoUrl = unescapeFbString(hd) || unescapeFbString(sd) || unescapeFbString(findAnyMp4Url(html)) || null;
+  let videoUrl = null;
+  let quality = null;
+  if (hd) {
+    videoUrl = unescapeFbString(hd);
+    quality = 'hd';
+  } else if (sd) {
+    videoUrl = unescapeFbString(sd);
+    quality = 'sd';
+  } else if (generic) {
+    videoUrl = unescapeFbString(generic);
+    quality = 'generic';
+  }
 
   const title = decodeHtmlEntities(
     firstMatch(html, [
@@ -228,6 +261,7 @@ function extractVideoData(html) {
 
   return {
     videoUrl,
+    quality,
     thumbnail: thumbnail || '',
     title,
     author,

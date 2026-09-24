@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Video Downloader | Video Freeway</title>
+<meta name="description" content="Get your YouTube videos and Shorts ready to watch or save in seconds. Free and easy to use.">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Inter', 'sans-serif'] },
+      colors: {
+        primary: { 50: '#fff7ed', 100: '#ffedd5', 200: '#fed7aa', 300: '#fdba74', 400: '#fb923c', 500: '#f97316', 600: '#ea580c', 700: '#c2410c', 800: '#9a3412', 900: '#7c2d12' }
+      },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'float-delayed': 'float 6s ease-in-out 3s infinite',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'bounce-slow': 'bounce 3s infinite',
+        'slide-up': 'slideUp 0.6s ease-out',
+        'slide-down': 'slideDown 0.3s ease-out',
+        'fade-in': 'fadeIn 0.5s ease-out',
+        'scale-in': 'scaleIn 0.3s ease-out',
+        'shimmer': 'shimmer 2s linear infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(30px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideDown: {
+          '0%': { opacity: '0', transform: 'translateY(-20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        scaleIn: {
+          '0%': { opacity: '0', transform: 'scale(0.9)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        }
+      }
+    }
+  }
+}
+</script>
+
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300">
+
+<!-- Navbar -->
+<!-- Navbar -->
+<nav class="sticky top-3 sm:top-4 z-50 transition-all duration-300 px-3 sm:px-6 lg:px-8">
+<div class="max-w-6xl mx-auto">
+<div class="glass backdrop-blur-xl border border-white/50 dark:border-slate-700/60 rounded-full shadow-lg shadow-orange-900/5 dark:shadow-black/30 px-4 sm:px-6 transition-all duration-300">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center space-x-2 sm:space-x-3 cursor-pointer" onclick="location.href='index.html'">
+<!-- VF Logo -->
+<div class="logo-container w-10 h-10 sm:w-12 sm:h-12">
+<img src="assets/logo.png" alt="Video Freeway Logo" class="w-full h-full object-contain">
+</div>
+<span class="text-lg sm:text-2xl font-black gradient-text">Video Freeway</span>
+</div>
+
+<div class="flex items-center gap-1.5 sm:gap-3">
+<!-- Desktop Menu -->
+<div class="hidden md:flex items-center space-x-6">
+<a onclick="location.href='index.html'" class="nav-link cursor-pointer hover:text-primary-600 font-medium transition transform hover:scale-105">Home</a>
+<a onclick="location.href='index.html?page=blogs'" class="nav-link cursor-pointer hover:text-primary-600 font-medium transition transform hover:scale-105">Blogs</a>
+<a onclick="location.href='index.html?page=faq'" class="nav-link cursor-pointer hover:text-primary-600 font-medium transition transform hover:scale-105">FAQ</a>
+<div class="downloaders-dropdown-wrap">
+<button class="nav-link cursor-pointer hover:text-primary-600 font-medium transition flex items-center gap-1">
+Downloaders <i data-lucide="chevron-down" class="w-4 h-4"></i>
+</button>
+<div class="downloaders-dropdown-menu">
+<a href="tiktok.html"><span class="dd-icon bg-black"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></span> TikTok Downloader</a>
+<a href="youtube.html"><span class="dd-icon bg-red-600"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span> YouTube Downloader</a>
+<a href="facebook.html"><span class="dd-icon bg-blue-600"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></span> Facebook Downloader</a>
+<a href="pinterest.html"><span class="dd-icon bg-red-500"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 0 5.396 0 12.017c0 5.084 3.163 9.42 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.781c0-1.663.967-2.911 2.171-2.911 1.023 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.056-4.86-4.994-4.86-3.4 0-5.395 2.551-5.395 5.188 0 1.029.394 2.132.889 2.729a.36.36 0 0 1 .081.343c-.089.372-.287 1.192-.325 1.358-.053.216-.174.262-.402.158-1.499-.699-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.004 2.35-1.496 3.146C9.57 23.812 10.763 24 12.017 24c6.624 0 12-5.396 12-12.017C24.017 5.396 18.641 0 12.017 0"/></svg></span> Pinterest Downloader</a>
+</div>
+</div>
+<button onclick="toggleTheme()" class="p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition transform hover:rotate-12">
+<i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+<i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
+</button>
+</div>
+
+<!-- Mobile-only Downloaders button, next to Sign In -->
+<div class="relative md:hidden">
+<button onclick="toggleNavDownloadersMobile(event)" class="flex items-center gap-1 px-2.5 py-2 rounded-lg text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+<i data-lucide="download" class="w-4 h-4"></i>
+<i data-lucide="chevron-down" class="w-3 h-3" id="navDownloadersMobileIcon"></i>
+</button>
+<div id="navDownloadersMobileMenu" class="downloaders-dropdown-menu" style="right:0; left:auto; transform:translateY(8px);">
+<a href="tiktok.html"><span class="dd-icon bg-black"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></span> TikTok</a>
+<a href="youtube.html"><span class="dd-icon bg-red-600"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span> YouTube</a>
+<a href="facebook.html"><span class="dd-icon bg-blue-600"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></span> Facebook</a>
+<a href="pinterest.html"><span class="dd-icon bg-red-500"><svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 0 5.396 0 12.017c0 5.084 3.163 9.42 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.781c0-1.663.967-2.911 2.171-2.911 1.023 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.056-4.86-4.994-4.86-3.4 0-5.395 2.551-5.395 5.188 0 1.029.394 2.132.889 2.729a.36.36 0 0 1 .081.343c-.089.372-.287 1.192-.325 1.358-.053.216-.174.262-.402.158-1.499-.699-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.004 2.35-1.496 3.146C9.57 23.812 10.763 24 12.017 24c6.624 0 12-5.396 12-12.017C24.017 5.396 18.641 0 12.017 0"/></svg></span> Pinterest</a>
+</div>
+</div>
+
+<div id="authButtons">
+<button onclick="location.href='index.html?page=auth'" class="btn-shine gradient-primary text-white px-3.5 sm:px-6 py-2 rounded-xl font-bold text-sm sm:text-base hover:opacity-90 transition transform hover:scale-105 shadow-lg">Sign In</button>
+</div>
+<div id="userMenu" class="hidden relative">
+<button onclick="toggleUserMenu(event)" class="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+<i data-lucide="user" class="w-5 h-5"></i>
+<span id="userNameDisplay" class="font-medium"></span>
+<i data-lucide="chevron-down" class="w-4 h-4 transition-transform" id="userMenuIcon"></i>
+</button>
+<div id="userDropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 py-2 animate-slide-down z-50">
+<a onclick="location.href='index.html?page=dashboard'; closeUserMenu()" class="block px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition flex items-center gap-3">
+<i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+</a>
+<a id="adminLink" onclick="location.href='index.html?page=admin'; closeUserMenu()" class="hidden block px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition flex items-center gap-3">
+<i data-lucide="shield" class="w-4 h-4"></i> Admin Panel
+</a>
+<a id="grantAccessLink" onclick="location.href='index.html?page=admin'; closeUserMenu()" class="hidden block px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition flex items-center gap-3 text-primary-600">
+<i data-lucide="user-plus" class="w-4 h-4"></i> Grant Access
+</a>
+<div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
+<a onclick="logout()" class="block px-4 py-3 text-red-600 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer transition flex items-center gap-3">
+<i data-lucide="log-out" class="w-4 h-4"></i> Logout
+</a>
+</div>
+</div>
+
+<!-- Mobile Menu Button -->
+<button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+<i data-lucide="menu" class="w-6 h-6"></i>
+</button>
+</div>
+</div>
+</div>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="md:hidden mobile-menu hidden mt-3 glass backdrop-blur-xl border border-white/50 dark:border-slate-700/60 rounded-3xl shadow-lg py-4">
+<div class="flex flex-col space-y-3 px-4">
+<a onclick="location.href='index.html'; toggleMobileMenu()" class="py-2 hover:text-primary-600 font-medium transition">Home</a>
+<a onclick="location.href='index.html?page=blogs'; toggleMobileMenu()" class="py-2 hover:text-primary-600 font-medium transition">Blogs</a>
+<a onclick="location.href='index.html?page=faq'; toggleMobileMenu()" class="py-2 hover:text-primary-600 font-medium transition">FAQ</a>
+<button onclick="toggleTheme()" class="py-2 text-left hover:text-primary-600 font-medium transition">Toggle Theme</button>
+<div id="mobileAuthButtons">
+<button onclick="location.href='index.html?page=auth'; toggleMobileMenu()" class="gradient-primary text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition shadow-lg">Sign In</button>
+</div>
+<div id="mobileUserMenu" class="hidden space-y-2">
+<div class="text-sm font-medium text-slate-600 dark:text-slate-400">Logged in as <span id="mobileUserName"></span></div>
+<a onclick="location.href='index.html?page=dashboard'; toggleMobileMenu()" class="py-2 hover:text-primary-600 font-medium transition">Dashboard</a>
+<a id="mobileAdminLink" onclick="location.href='index.html?page=admin'; toggleMobileMenu()" class="hidden py-2 hover:text-primary-600 font-medium transition">Admin Panel</a>
+<a id="mobileGrantAccessLink" onclick="location.href='index.html?page=admin'; toggleMobileMenu()" class="hidden py-2 text-primary-600 font-medium transition">Grant Access</a>
+<a onclick="logout(); toggleMobileMenu()" class="py-2 text-red-600 font-medium transition">Logout</a>
+</div>
+</div>
+</div>
+</div>
+</nav>
+
+<!-- Hero / Tool Section -->
+<section class="relative py-16 md:py-20 bg-gradient-to-br from-orange-50 via-white to-yellow-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 overflow-hidden">
+<div class="absolute inset-0 overflow-hidden pointer-events-none">
+<div class="absolute top-20 -left-20 w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
+<div class="absolute top-40 -right-20 w-96 h-96 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float-delayed"></div>
+</div>
+<div class="relative max-w-5xl mx-auto px-4 text-center">
+<div class="w-20 h-20 bg-red-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl animate-slide-up">
+<svg class="w-9 h-9 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+</div>
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-sm font-semibold mb-4 animate-slide-up shadow-lg">
+<span class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>Videos & Shorts • Instant Preview
+</div>
+<h1 class="text-4xl md:text-6xl font-black mb-5 leading-tight animate-slide-up">
+YouTube Video Downloader <span class="gradient-text">Free</span>
+</h1>
+<p class="text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-10 max-w-2xl mx-auto animate-slide-up">Paste any YouTube video or Shorts link to instantly preview its title and thumbnail. When you're ready, tap a download option and we'll take you straight to that video on YouTube itself, so you can save or watch it exactly the way you prefer.</p>
+
+<!-- Input Section -->
+<div class="max-w-3xl mx-auto animate-slide-up">
+<div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-2 border border-slate-200 dark:border-slate-700 transform transition hover:scale-[1.02]">
+<div class="flex flex-col sm:flex-row gap-2">
+<input type="text" id="videoUrl" placeholder="Paste YouTube video URL here..." class="flex-1 px-6 py-5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none text-lg transition bg-slate-50 dark:bg-slate-900">
+<button onclick="clearInput()" class="px-6 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-2xl font-semibold transition transform hover:scale-105"><i data-lucide="x" class="w-5 h-5"></i></button>
+<button onclick="analyzeVideo()" class="btn-shine gradient-primary text-white px-8 py-5 rounded-2xl font-black text-lg pulse-glow flex items-center justify-center gap-2 hover:opacity-95 transition transform hover:scale-105 shadow-xl">
+<i data-lucide="search" class="w-6 h-6"></i><span>Analyze</span>
+</button>
+</div>
+</div>
+
+<div class="max-w-3xl mx-auto mt-6 p-4 rounded-2xl bg-orange-50 dark:bg-orange-900/20 border-l-4 border-orange-500 text-sm text-slate-700 dark:text-slate-300 animate-slide-up">
+<i data-lucide="info" class="w-4 h-4 inline-block mr-1 text-orange-600"></i>Note: YouTube downloads open directly on YouTube.com so you can save the video the way you prefer.
+</div>
+
+<!-- Loading -->
+<div id="loadingState" class="hidden mt-8">
+<div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-8 border border-slate-200 dark:border-slate-700">
+<div class="flex items-center justify-center gap-3 mb-6">
+<div class="spinner"></div>
+<span class="text-lg font-bold text-slate-700 dark:text-slate-300">Fetching video...</span>
+</div>
+<div class="space-y-3"><div class="h-4 shimmer-bg rounded-full"></div><div class="h-4 shimmer-bg rounded-full w-3/4"></div><div class="h-4 shimmer-bg rounded-full w-1/2"></div></div>
+</div>
+</div>
+
+<!-- Result Card -->
+<div id="resultCard" class="hidden mt-8 animate-scale-in">
+<div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700">
+<div class="grid md:grid-cols-2">
+<div class="relative bg-slate-900 aspect-video">
+<img id="videoThumbnail" src="" class="w-full h-full object-cover">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute top-4 left-4"><span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1 shadow-lg animate-bounce-slow"><i data-lucide="check-circle" class="w-4 h-4"></i> Verified</span></div>
+<div class="absolute bottom-4 left-4 right-4"><span id="durationBadge" class="bg-black/80 backdrop-blur text-white px-3 py-1 rounded-lg text-sm font-bold"></span></div>
+<div class="absolute top-4 right-4"><span id="platformTag" class="bg-white/90 backdrop-blur text-slate-800 px-3 py-1 rounded-lg text-sm font-bold"></span></div>
+</div>
+<div class="p-6 md:p-8">
+<h3 id="videoTitle" class="text-xl font-black text-slate-800 dark:text-slate-100 mb-2 line-clamp-2"></h3>
+<p id="videoAuthor" class="text-slate-600 dark:text-slate-400 flex items-center gap-2 mb-6 font-medium"><i data-lucide="user" class="w-4 h-4"></i><span></span></p>
+<div class="space-y-3">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Download Options</p>
+<button onclick="downloadVideo('1080p')" class="download-btn w-full gradient-primary text-white p-4 rounded-2xl font-bold flex items-center justify-between shadow-lg hover:opacity-95 transition transform hover:scale-[1.02] active:scale-95">
+<div class="flex items-center gap-3"><div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center"><i data-lucide="video" class="w-5 h-5"></i></div><div class="text-left"><div class="text-sm">Full HD 1080p</div><div class="text-xs opacity-75">MP4 • No Watermark</div></div></div>
+<i data-lucide="download" class="w-5 h-5"></i>
+</button>
+<button onclick="downloadVideo('720p')" class="download-btn w-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 p-4 rounded-2xl font-bold flex items-center justify-between transition transform hover:scale-[1.02] active:scale-95">
+<div class="flex items-center gap-3"><div class="w-10 h-10 bg-white dark:bg-slate-800 rounded-xl flex items-center justify-center"><i data-lucide="video" class="w-5 h-5"></i></div><div class="text-left"><div class="text-sm">HD 720p</div><div class="text-xs text-slate-500 dark:text-slate-400">MP4</div></div></div>
+<i data-lucide="download" class="w-5 h-5"></i>
+</button>
+<button onclick="downloadAudio()" class="download-btn w-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 p-4 rounded-2xl font-bold flex items-center justify-between transition transform hover:scale-[1.02] active:scale-95">
+<div class="flex items-center gap-3"><div class="w-10 h-10 bg-white dark:bg-slate-800 rounded-xl flex items-center justify-center"><i data-lucide="music" class="w-5 h-5"></i></div><div class="text-left"><div class="text-sm">Audio Only</div><div class="text-xs text-slate-500 dark:text-slate-400">MP3</div></div></div>
+<i data-lucide="download" class="w-5 h-5"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- How To Use -->
+<section class="py-16 bg-white dark:bg-slate-800">
+<div class="max-w-5xl mx-auto px-4">
+<div class="text-center mb-12">
+<h2 class="text-3xl md:text-4xl font-black text-slate-800 dark:text-slate-100 mb-3 animate-slide-up">How To Download YouTube Videos</h2>
+<p class="text-slate-600 dark:text-slate-400 animate-slide-up">Three simple steps, no software to install</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<div class="text-center animate-slide-up" style="animation-delay:0.0s">
+<div class="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 font-black text-white text-lg shadow-lg">1</div>
+<h3 class="text-lg font-black text-slate-800 dark:text-slate-100 mb-2">Copy the YouTube link</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm">Open the video on YouTube and copy its link from the address bar or Share button.</p>
+</div>
+<div class="text-center animate-slide-up" style="animation-delay:0.1s">
+<div class="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 font-black text-white text-lg shadow-lg">2</div>
+<h3 class="text-lg font-black text-slate-800 dark:text-slate-100 mb-2">Paste it below</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm">Paste the link into the box above and tap Analyze to load the preview.</p>
+</div>
+<div class="text-center animate-slide-up" style="animation-delay:0.2s">
+<div class="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 font-black text-white text-lg shadow-lg">3</div>
+<h3 class="text-lg font-black text-slate-800 dark:text-slate-100 mb-2">Open & save it</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm">Choose a download option — we'll open the exact video on YouTube for you.</p>
+</div>
+</div>
+</div>
+</section>
+
+<footer class="bg-slate-900 dark:bg-slate-950 text-white py-12 mt-20">
+<div class="max-w-7xl mx-auto px-4 text-center">
+<div class="flex items-center justify-center space-x-3 mb-4">
+<div class="w-10 h-10">
+<img src="assets/logo.png" alt="Video Freeway Logo" class="w-full h-full object-contain">
+</div>
+<span class="text-2xl font-black gradient-text">Video Freeway</span>
+</div>
+<p class="text-slate-400 text-sm mb-2">&copy; 2026 Video Freeway. All rights reserved.</p>
+<p class="text-slate-500 text-xs">Not affiliated with TikTok, YouTube, Facebook, or Pinterest.</p>
+</div>
+</footer>
+
+<script>
+const PLATFORM = 'youtube';
+</script>
+<script src="assets/downloader.js"></script>
+<script>
+lucide.createIcons();
+</script>
+</body>
+</html>
