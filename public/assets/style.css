@@ -61,6 +61,19 @@
 .faq-preview-card:hover { transform: translateY(-4px); box-shadow: 0 15px 35px -10px rgba(255,69,0,0.3); border-color: #FF6B35; }
 .see-more-btn { transition: all 0.35s cubic-bezier(0.4,0,0.2,1); }
 .see-more-btn:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 15px 30px -8px rgba(255,69,0,0.5); }
+
+/* URL input: subtle fade hint before the paste/clear buttons, so overflowing
+   link text visually suggests there's more to scroll to (in addition to the
+   browser's own native cursor-follow scrolling). */
+.input-fade-wrap { position: relative; }
+.input-fade-wrap::after {
+  content: ''; position: absolute; top: 3px; bottom: 3px; right: 92px; width: 26px;
+  pointer-events: none; border-radius: 0;
+  background: linear-gradient(to right, rgba(248,250,252,0), rgba(248,250,252,0.95));
+}
+.dark .input-fade-wrap::after {
+  background: linear-gradient(to right, rgba(15,23,42,0), rgba(15,23,42,0.95));
+}
 /* Downloaders dropdown (desktop hover) */
 .downloaders-dropdown-wrap { position: relative; }
 .downloaders-dropdown-menu {

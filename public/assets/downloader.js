@@ -28,6 +28,17 @@ function clearInput() {
   document.getElementById('resultCard').classList.add('hidden');
 }
 
+async function pasteFromClipboard() {
+  try {
+    const text = await navigator.clipboard.readText();
+    if (text) {
+      document.getElementById('videoUrl').value = text.trim();
+    }
+  } catch (e) {
+    alert('Could not access clipboard. Please paste the link manually (long-press → Paste).');
+  }
+}
+
 async function analyzeVideo() {
   const urlInput = document.getElementById('videoUrl');
   const url = urlInput.value.trim();

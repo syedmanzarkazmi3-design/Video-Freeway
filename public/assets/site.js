@@ -18,7 +18,13 @@ function toggleTheme() {
 
 function toggleMobileMenu() {
   const menu = document.getElementById('mobileMenu');
+  const pill = document.getElementById('navPill');
   if (menu) menu.classList.toggle('hidden');
+  if (pill) {
+    const isOpen = menu && !menu.classList.contains('hidden');
+    pill.classList.toggle('rounded-full', !isOpen);
+    pill.classList.toggle('rounded-3xl', isOpen);
+  }
 }
 
 function toggleMobileDownloaders(event) {

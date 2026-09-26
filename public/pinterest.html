@@ -23,6 +23,9 @@ tailwind.config = {
       animation: {
         'float': 'float 6s ease-in-out infinite',
         'float-delayed': 'float 6s ease-in-out 3s infinite',
+        'ink-drop': 'inkDrop 7s ease-in-out infinite',
+        'ink-drop-delayed': 'inkDrop 9s ease-in-out 2s infinite',
+        'ink-drop-delayed-2': 'inkDrop 8s ease-in-out 4s infinite',
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'bounce-slow': 'bounce 3s infinite',
         'slide-up': 'slideUp 0.6s ease-out',
@@ -35,6 +38,12 @@ tailwind.config = {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-20px)' },
+        },
+        inkDrop: {
+          '0%, 100%': { transform: 'scale(0.75) translate(0px, 0px)', opacity: '0.18' },
+          '25%': { transform: 'scale(1.15) translate(25px, -30px)', opacity: '0.38' },
+          '50%': { transform: 'scale(0.9) translate(-20px, 20px)', opacity: '0.28' },
+          '75%': { transform: 'scale(1.08) translate(15px, 25px)', opacity: '0.32' },
         },
         slideUp: {
           '0%': { opacity: '0', transform: 'translateY(30px)' },
@@ -71,14 +80,14 @@ tailwind.config = {
 <!-- Navbar -->
 <nav class="sticky top-3 sm:top-4 z-50 transition-all duration-300 px-3 sm:px-6 lg:px-8">
 <div class="max-w-6xl mx-auto">
-<div class="glass backdrop-blur-xl border border-white/50 dark:border-slate-700/60 rounded-full shadow-lg shadow-orange-900/5 dark:shadow-black/30 px-4 sm:px-6 transition-all duration-300">
+<div id="navPill" class="glass backdrop-blur-xl border border-white/50 dark:border-slate-700/60 rounded-full shadow-lg shadow-orange-900/5 dark:shadow-black/30 px-4 sm:px-6 transition-all duration-300 overflow-hidden">
 <div class="flex justify-between items-center h-16">
 <div class="flex items-center space-x-2 sm:space-x-3 cursor-pointer" onclick="location.href='index.html'">
 <!-- VF Logo -->
 <div class="logo-container w-10 h-10 sm:w-12 sm:h-12">
 <img src="assets/logo.png" alt="Video Freeway Logo" class="w-full h-full object-contain">
 </div>
-<span class="text-lg sm:text-2xl font-black gradient-text">Video Freeway</span>
+<span class="text-lg sm:text-2xl font-black gradient-text whitespace-nowrap">Video Freeway</span>
 </div>
 
 <div class="flex items-center gap-1.5 sm:gap-3">
@@ -119,7 +128,7 @@ Downloaders <i data-lucide="chevron-down" class="w-4 h-4"></i>
 </div>
 
 <div id="authButtons">
-<button onclick="location.href='index.html?page=auth'" class="btn-shine gradient-primary text-white px-3.5 sm:px-6 py-2 rounded-xl font-bold text-sm sm:text-base hover:opacity-90 transition transform hover:scale-105 shadow-lg">Sign In</button>
+<button onclick="location.href='index.html?page=auth'" class="btn-shine gradient-primary text-white px-3.5 sm:px-6 py-2 rounded-xl font-bold text-sm sm:text-base hover:opacity-90 transition transform hover:scale-105 shadow-lg whitespace-nowrap">Sign In</button>
 </div>
 <div id="userMenu" class="hidden relative">
 <button onclick="toggleUserMenu(event)" class="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition">
@@ -150,11 +159,10 @@ Downloaders <i data-lucide="chevron-down" class="w-4 h-4"></i>
 </button>
 </div>
 </div>
-</div>
 
-<!-- Mobile Menu -->
-<div id="mobileMenu" class="md:hidden mobile-menu hidden mt-3 glass backdrop-blur-xl border border-white/50 dark:border-slate-700/60 rounded-3xl shadow-lg py-4">
-<div class="flex flex-col space-y-3 px-4">
+<!-- Mobile Menu (attached inside the same header pill) -->
+<div id="mobileMenu" class="md:hidden mobile-menu hidden">
+<div class="flex flex-col space-y-3 px-2 pt-2 pb-4 border-t border-slate-200/60 dark:border-slate-700/60 mt-1">
 <a onclick="location.href='index.html'; toggleMobileMenu()" class="py-2 hover:text-primary-600 font-medium transition">Home</a>
 <a onclick="location.href='index.html?page=blogs'; toggleMobileMenu()" class="py-2 hover:text-primary-600 font-medium transition">Blogs</a>
 <a onclick="location.href='index.html?page=faq'; toggleMobileMenu()" class="py-2 hover:text-primary-600 font-medium transition">FAQ</a>
@@ -172,13 +180,14 @@ Downloaders <i data-lucide="chevron-down" class="w-4 h-4"></i>
 </div>
 </div>
 </div>
+</div>
 </nav>
 
 <!-- Hero / Tool Section -->
 <section class="relative py-16 md:py-20 bg-gradient-to-br from-orange-50 via-white to-yellow-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 overflow-hidden">
 <div class="absolute inset-0 overflow-hidden pointer-events-none">
-<div class="absolute top-20 -left-20 w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
-<div class="absolute top-40 -right-20 w-96 h-96 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float-delayed"></div>
+<div class="absolute top-20 -left-20 w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-ink-drop"></div>
+<div class="absolute top-40 -right-20 w-96 h-96 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-ink-drop-delayed"></div>
 </div>
 <div class="relative max-w-5xl mx-auto px-4 text-center">
 <div class="w-20 h-20 bg-red-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl animate-slide-up">
@@ -188,16 +197,21 @@ Downloaders <i data-lucide="chevron-down" class="w-4 h-4"></i>
 <span class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>Pins & Videos • No Watermark
 </div>
 <h1 class="text-4xl md:text-6xl font-black mb-5 leading-tight animate-slide-up">
-Pinterest Video Downloader <span class="gradient-text">Free</span>
+Pinterest Video Downloader<br class="sm:hidden"> <span class="gradient-text">Free</span>
 </h1>
 <p class="text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-10 max-w-2xl mx-auto animate-slide-up">Save Pinterest videos and video Pins in the best quality available, without any watermark. Paste the Pin's link below and we'll fetch the video for you — works for any public Pin.</p>
 
 <!-- Input Section -->
 <div class="max-w-3xl mx-auto animate-slide-up">
-<div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-2 border border-slate-200 dark:border-slate-700 transform transition hover:scale-[1.02]">
+<div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-2 border border-slate-200 dark:border-slate-700 transform transition md:hover:scale-[1.02]">
 <div class="flex flex-col sm:flex-row gap-2">
-<input type="text" id="videoUrl" placeholder="Paste Pinterest video URL here..." class="flex-1 px-6 py-5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none text-lg transition bg-slate-50 dark:bg-slate-900">
-<button onclick="clearInput()" class="px-6 py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-2xl font-semibold transition transform hover:scale-105"><i data-lucide="x" class="w-5 h-5"></i></button>
+<div class="relative flex-1 input-fade-wrap">
+<input type="text" id="videoUrl" placeholder="Paste Pinterest video URL here..." style="font-size:16px;" class="w-full pl-6 pr-24 py-5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 focus:border-orange-500 focus:outline-none transition bg-slate-50 dark:bg-slate-900">
+<div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
+<button onclick="pasteFromClipboard()" title="Paste link" class="p-2.5 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition"><i data-lucide="clipboard-paste" class="w-4 h-4"></i></button>
+<button onclick="clearInput()" title="Clear" class="p-2.5 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition"><i data-lucide="x" class="w-4 h-4"></i></button>
+</div>
+</div>
 <button onclick="analyzeVideo()" class="btn-shine gradient-primary text-white px-8 py-5 rounded-2xl font-black text-lg pulse-glow flex items-center justify-center gap-2 hover:opacity-95 transition transform hover:scale-105 shadow-xl">
 <i data-lucide="search" class="w-6 h-6"></i><span>Analyze</span>
 </button>
