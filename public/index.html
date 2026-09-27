@@ -75,11 +75,24 @@ tailwind.config = {
 <script src="assets/reviews.js"></script>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300">
+<!-- Ad blocker detection bait (kept invisible off-screen; hidden by ad-blocker cosmetic filters if one is active) -->
+<div id="adblock-bait" class="adsbox ad-banner adsbygoogle ad-placement textads banner-ads text-ad" style="position:absolute; top:-9999px; left:-9999px; width:300px; height:250px;"></div>
+<!-- Ad blocker overlay -->
+<div id="adblockOverlay" class="hidden">
+<div class="adblock-card bg-white dark:bg-slate-800 rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
+<div class="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-2xl flex items-center justify-center mx-auto mb-5">
+<i data-lucide="shield-alert" class="w-8 h-8 text-red-600"></i>
+</div>
+<h2 class="text-2xl font-black text-slate-800 dark:text-slate-100 mb-3">Ad Blocker Detected</h2>
+<p class="text-slate-600 dark:text-slate-400 mb-2">Please disable your ad blocker to keep using Video Freeway. Ads help us keep this tool free for everyone.</p>
+<p class="text-sm text-slate-500 dark:text-slate-500">This page will reload automatically once it's turned off.</p>
+</div>
+</div>
 
 <!-- Navbar -->
 <nav class="sticky top-3 sm:top-4 z-50 transition-all duration-300 px-3 sm:px-6 lg:px-8">
 <div class="max-w-6xl mx-auto">
-<div id="navPill" class="glass backdrop-blur-xl border border-white/50 dark:border-slate-700/60 rounded-full shadow-lg shadow-orange-900/5 dark:shadow-black/30 px-4 sm:px-6 transition-all duration-300 overflow-hidden">
+<div id="navPill" class="glass backdrop-blur-xl border border-white/50 dark:border-slate-700/60 rounded-full shadow-lg shadow-orange-900/5 dark:shadow-black/30 px-4 sm:px-6 transition-all duration-300">
 <div class="flex justify-between items-center h-16">
 <div class="flex items-center space-x-2 sm:space-x-3 cursor-pointer" onclick="showPage('home')">
 <!-- VF Logo -->

@@ -52,6 +52,48 @@ document.addEventListener('click', function(event) {
   }
 });
 
+// ---- Ad blocker detection ----
+// Uses a "bait" element with class names commonly targeted by ad-blocker
+// cosmetic filters (adsbox, ad-banner, adsbygoogle, etc). If an ad blocker
+// hides/removes it, we show a full-screen notice. We keep checking every
+// second, and reload the page automatically the moment the bait element
+// becomes visible again (i.e. the ad blocker was turned off).
+function isAdBlockerActive() {
+  const bait = document.getElementById('adblock-bait');
+  if (!bait) return false;
+  const style = window.getComputedStyle(bait);
+  return (
+    style.display === 'none' ||
+    style.visibility === 'hidden' ||
+    bait.offsetHeight === 0 ||
+    bait.offsetParent === null ||
+    bait.clientHeight === 0
+  );
+}
+
+function initAdBlockDetection() {
+  const overlay = document.getElementById('adblockOverlay');
+  if (!overlay) return;
+  setTimeout(function () {
+    if (isAdBlockerActive()) {
+      overlay.classList.remove('hidden');
+      document.documentElement.style.overflow = 'hidden';
+      const interval = setInterval(function () {
+        if (!isAdBlockerActive()) {
+          clearInterval(interval);
+          location.reload();
+        }
+      }, 1000);
+    }
+  }, 400);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAdBlockDetection);
+} else {
+  initAdBlockDetection();
+}
+
 // Apply saved theme immediately (before the rest of the page renders) to
 // avoid a flash of the wrong theme.
 applyTheme();

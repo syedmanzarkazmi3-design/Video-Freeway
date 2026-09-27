@@ -10,6 +10,14 @@ const platformPatterns = {
 };
 const platformNames = { tiktok: 'TikTok', youtube: 'YouTube', facebook: 'Facebook', pinterest: 'Pinterest' };
 
+function toggleFAQ(id) {
+  const content = document.getElementById(`faq-content-${id}`);
+  const icon = document.getElementById(`faq-icon-${id}`);
+  if (!content) return;
+  content.classList.toggle('hidden');
+  if (icon) icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+
 let videoData = null;
 
 function extractYouTubeId(url) {

@@ -74,6 +74,11 @@
 .dark .input-fade-wrap::after {
   background: linear-gradient(to right, rgba(15,23,42,0), rgba(15,23,42,0.95));
 }
+
+/* Ad-blocker overlay */
+#adblockOverlay { position: fixed; inset: 0; z-index: 9999; background: rgba(15,23,42,0.92); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 1rem; }
+#adblockOverlay:not(.hidden) { display: flex; }
+#adblockOverlay .adblock-card { animation: scaleIn 0.3s ease-out; }
 /* Downloaders dropdown (desktop hover) */
 .downloaders-dropdown-wrap { position: relative; }
 .downloaders-dropdown-menu {
