@@ -4,91 +4,74 @@
 ```
 video-freeway/
 ├── netlify.toml
+├── package.json              <- NEW: tells Netlify to install @netlify/blobs
 ├── public/
-│   ├── index.html          <- landing page (home, blogs, FAQ, auth, admin, dashboard)
-│   ├── tiktok.html          <- TikTok downloader page
-│   ├── youtube.html         <- YouTube downloader page
-│   ├── facebook.html        <- Facebook downloader page
-│   ├── pinterest.html       <- Pinterest downloader page
-│   └── assets/
-│       ├── logo.png         <- shared logo (used by every page)
-│       ├── style.css        <- shared styles (used by every page)
-│       ├── site.js          <- shared header/theme/menu behavior
-│       ├── downloader.js    <- shared analyze/download logic (single-platform mode)
-│       └── reviews.js       <- fake reviews data + marquee renderer (homepage only)
+│   ├── index.html
+│   ├── tiktok.html / youtube.html / facebook.html / pinterest.html
+│   ├── llms.txt, robots.txt, sitemap.xml
+│   └── assets/ (logo, css, shared js)
 └── netlify/
     └── functions/
-        ├── facebook.js       <- serverless function (Facebook video extraction)
-        └── pinterest.js      <- serverless function (Pinterest video extraction)
+        ├── _lib/                    <- shared helpers (store, auth, guard)
+        ├── facebook.js, pinterest.js  <- video extraction (unchanged)
+        ├── auth-signup.js, auth-login.js
+        ├── auth-forgot-password.js, auth-reset-password.js
+        ├── track-visit.js, track-download.js
+        ├── get-my-data.js, get-admin-data.js
+        ├── grant-access.js, set-role.js
 ```
 
-## Important: how to deploy this time
-This site needs **serverless functions** (for Facebook and Pinterest), so a simple
-drag-and-drop of HTML files (like the very first time) will NOT run them. Use one
-of these two methods instead:
+## What's new: a REAL shared backend
+Previously, "users", "downloads" and "analytics" only lived in each visitor's
+own browser (localStorage) — that's why your dashboard only ever showed
+yourself. Now all of that lives in **Netlify Blobs**, a real shared data
+store built into Netlify, so:
+- Every signup, every download, every visit — from anyone, on any device —
+  shows up live in your Admin Panel.
+- Passwords are hashed (not stored as plain text like before).
+- Roles (`admin` / `manager` / `viewer` / `user`) are enforced by the
+  server, not just hidden in the UI.
 
-### Option A — Netlify CLI (fastest, recommended)
-1. Install once: `npm install -g netlify-cli`
-2. Open a terminal inside this `video-freeway` folder.
-3. Run: `netlify deploy --prod`
-4. When asked, choose your existing site (videofreeeway) or create a new one,
-   and confirm the publish directory is `public`.
+## Required setup after deploying (one-time)
+Netlify needs 3 environment variables. In the Netlify dashboard for this
+site: **Project configuration → Environment variables → Add a variable**,
+add all three:
 
-### Option B — Connect a Git repo (GitHub/GitLab)
-1. Push this whole folder (including `netlify.toml` and the `netlify`
-   functions folder) to a new GitHub repo.
-2. In Netlify dashboard → "Add new site" → "Import an existing project" →
-   connect that repo.
-3. Build settings are already set via `netlify.toml`
-   (publish = `public`, functions = `netlify/functions`) — no changes needed.
-4. Deploy.
+| Key | Value | Why |
+|---|---|---|
+| `ADMIN_EMAIL` | your own email (the one you sign up with) | Whoever signs up with this exact email automatically becomes `admin`. |
+| `SESSION_SECRET` | any long random string, e.g. `k3f9-a7x2-mQ8p-zR4t-...` | Used to sign login sessions. Keep it secret; don't reuse a real password. |
+| `RESEND_API_KEY` | the API key from resend.com | Used to send "Grant Access" and password-reset emails. |
 
-Either way, after deploy check that this URL responds with JSON (not a 404):
-`https://YOURSITE.netlify.app/.netlify/functions/facebook?url=test`
+After adding these, go to **Deploys → Trigger deploy → Deploy site** once so
+Netlify picks them up (env vars only apply to deploys made after you save them).
 
-## What changed / how it works now
+⚠️ **Enable Netlify Blobs**: Blobs should work automatically once
+`@netlify/blobs` is installed (via `package.json`, already included) — no
+extra dashboard toggle needed on modern Netlify projects.
 
-- **Site structure** — The site is now multi-page: `index.html` is the landing
-  page (choose-a-downloader cards, features, reviews, FAQ, plus the full
-  account system — sign in, blogs, FAQ management, admin panel, dashboard).
-  Each downloader tool has its own dedicated page (`tiktok.html`,
-  `youtube.html`, `facebook.html`, `pinterest.html`) reachable from the
-  "Downloaders" dropdown in the header (hover on desktop, tap on mobile) or
-  from the cards on the homepage.
-- **TikTok** — unchanged, still uses the public tikwm.com API directly from
-  the browser (this already worked, was not touched).
-- **YouTube** — no backend needed. The app fetches the video's title/
-  thumbnail/author from YouTube's own oEmbed endpoint, falling back to
-  `noembed.com`, and finally to YouTube's public thumbnail CDN if both of
-  those fail — so a valid YouTube link basically never fails to show a
-  preview. Clicking any download button opens the *same* YouTube video in a
-  new tab (never on Analyze, only when a download button is clicked) so the
-  user can save it from YouTube directly — watermark isn't a concern here
-  per your instructions.
-- **Facebook** — uses `netlify/functions/facebook.js`. It tries three ways of
-  reaching the same video (normal page, mobile page, and Facebook's own
-  public embed page) and keeps whichever attempt finds the *highest quality*
-  video link, not just the first one that finds anything — this avoids
-  settling for a low-quality preview clip when the real HD source was
-  reachable via a different attempt.
-  - Public videos with no owner restrictions → real HD/SD video URL is
-    returned and the "Full HD / HD / Audio" buttons will download the
-    actual video file.
-  - Private / friends-only / restricted / age-gated / region-locked videos
-    → Facebook does not expose a direct video URL, so the function returns
-    a clear error ("Video not available. It may be private, restricted by
-    the owner...") instead of a broken link.
-  - Facebook's anti-bot protections change over time, so 100% success on
-    every video can't be guaranteed by this or any free tool — but this
-    gives it several fallback paths to try.
-- **Pinterest** — uses `netlify/functions/pinterest.js`, same approach as
-  Facebook: fetches the public Pin page and extracts the video URL from
-  Pinterest's embedded JSON (checking the highest-quality key first). Only
-  works for Pins that actually contain a video (not photo-only Pins) and
-  that the owner hasn't restricted.
-- **Grant Access bug fix** — previously, *any* logged-in user (not just
-  admin) could see and open "Grant Access" in the account menu. This is now
-  correctly hidden unless the logged-in user's role is `admin`.
-- **Mobile header** — the logo and site name are now always visible on
-  mobile (were hidden before), and a "Downloaders" button sits next to
-  "Sign In" in the mobile header row.
+## How to deploy this update
+Same as before (GitHub Desktop → replace files → Commit → Push), but this
+time **replace everything**: `public`, `netlify`, `netlify.toml`, and also
+add the new `package.json` file to the repo root (it wasn't there before).
+
+After pushing, check the deploy log in Netlify (Deploys → click the latest
+deploy → Deploy log) — you should see a line about installing npm
+dependencies. If that step fails, it's almost always because `package.json`
+didn't get committed to the repo root — double check it's there, right next
+to `netlify.toml`.
+
+## Roles explained
+- **admin** — you. Full access: Grant Access, change anyone's role, see everything.
+- **manager** — can view all users' data and full analytics (granted by admin).
+- **viewer** — can view analytics/stats, read-only (granted by admin).
+- **user** — a normal signed-up visitor; sees only their own download history.
+
+## Other notes
+- TikTok — unchanged, uses the public tikwm.com API directly from the browser.
+- YouTube — no backend needed; downloads open the video on YouTube itself.
+- Facebook / Pinterest — serverless functions scrape the public page for a
+  direct video URL. Only works for public, unrestricted content.
+- Ad-blocker wall — shows automatically if a visitor has an ad blocker on.
+  It currently has no real ads behind it — once you add a real ad network
+  (e.g. Google AdSense), this will make full sense to visitors.

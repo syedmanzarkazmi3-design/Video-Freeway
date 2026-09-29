@@ -159,8 +159,6 @@ async function analyzeVideo() {
       document.getElementById('resultCard').classList.remove('hidden');
       if (window.lucide) lucide.createIcons();
 
-      trackDownload(PLATFORM, data.title);
-
       setTimeout(() => document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
     } else {
       throw new Error('Video not found');
@@ -172,18 +170,19 @@ async function analyzeVideo() {
   }
 }
 
-// Track Download (writes to the same localStorage keys the main dashboard reads,
-// so stats stay consistent no matter which tool page the download happened on)
-function trackDownload(platform, title) {
-  const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
-  const analytics = JSON.parse(localStorage.getItem('vf_analytics') || '{}');
-  const today = new Date().toISOString().split('T')[0];
-
-  analytics.downloads = analytics.downloads || [];
-  analytics.downloads.push({ platform, title, date: new Date().toISOString(), user: 'anonymous' });
-  analytics.visitors = analytics.visitors || {};
-  analytics.visitors[today] = (analytics.visitors[today] || 0) + 1;
-  localStorage.setItem('vf_analytics', JSON.stringify(analytics));
+// Track a real download click (not just "Analyze"). Sent to the shared
+// backend so the admin dashboard shows genuine, live numbers.
+function trackDownload(platform, title, quality) {
+  let userEmail = '';
+  try {
+    const u = JSON.parse(sessionStorage.getItem('vf_user') || 'null');
+    if (u && u.email) userEmail = u.email;
+  } catch (e) {}
+  fetch('/.netlify/functions/track-download', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ platform: platform, title: title || 'Untitled', quality: quality || '', visitorId: getVisitorId(), userEmail: userEmail }),
+  }).catch(function () {});
 }
 
 // Download Video
@@ -192,6 +191,7 @@ function trackDownload(platform, title) {
 // intended "watch/download it on YouTube itself" behavior.
 async function downloadVideo(quality) {
   if (!videoData || !videoData.videoUrl) { alert('No video available'); return; }
+  trackDownload(PLATFORM, videoData.title, quality);
   if (videoData.platform === 'YouTube') {
     window.open(videoData.videoUrl, '_blank');
     return;
@@ -214,6 +214,7 @@ async function downloadVideo(quality) {
 
 async function downloadAudio() {
   if (!videoData || !videoData.audioUrl) { alert('Audio not available'); return; }
+  trackDownload(PLATFORM, videoData.title, 'audio');
   if (videoData.platform === 'YouTube') {
     window.open(videoData.videoUrl, '_blank');
     return;

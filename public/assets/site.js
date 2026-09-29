@@ -94,6 +94,36 @@ if (document.readyState === 'loading') {
   initAdBlockDetection();
 }
 
+
+// ---- Real visitor tracking (shared by every page) ----
+// A random anonymous id is created once per browser and reused, so the same
+// person counts as ONE unique visitor no matter how many pages/days they visit.
+function getVisitorId() {
+  let id = localStorage.getItem('vf_visitor_id');
+  if (!id) {
+    id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'v-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+    localStorage.setItem('vf_visitor_id', id);
+  }
+  return id;
+}
+
+function trackVisit() {
+  const flag = 'vf_visit_' + new Date().toISOString().split('T')[0];
+  if (sessionStorage.getItem(flag)) return; // once per tab-session per day
+  sessionStorage.setItem(flag, '1');
+  fetch('/.netlify/functions/track-visit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ visitorId: getVisitorId() }),
+  }).catch(function () {});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', trackVisit);
+} else {
+  trackVisit();
+}
+
 // Apply saved theme immediately (before the rest of the page renders) to
 // avoid a flash of the wrong theme.
 applyTheme();

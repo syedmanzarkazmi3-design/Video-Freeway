@@ -760,27 +760,39 @@ let currentPlatform = 'tiktok';
 let detectedPlatform = null;
 let videoData = null;
 let currentUser = null;
+let authToken = null;
 let quill = null;
 let currentAdminSection = 'overview';
 
-const ADMIN_EMAIL = 'syedmanzarkazmi3@gmail.com';
-const ADMIN_PASSWORD = '3@gmail.com';
+// Persistent anonymous visitor id (used for real visitor/download tracking,
+// independent of whether the person ever signs up).
+function getVisitorId() {
+  let id = localStorage.getItem('vf_visitor_id');
+  if (!id) {
+    id = (crypto.randomUUID ? crypto.randomUUID() : 'v-' + Date.now() + '-' + Math.random().toString(36).slice(2));
+    localStorage.setItem('vf_visitor_id', id);
+  }
+  return id;
+}
+
+function trackVisit() {
+  fetch('/.netlify/functions/track-visit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ visitorId: getVisitorId() }),
+  }).catch(() => {});
+}
 
 // Initialize Data
 function initData() {
-if (!localStorage.getItem('vf_users')) {
-localStorage.setItem('vf_users', JSON.stringify([
-{ email: ADMIN_EMAIL, password: ADMIN_PASSWORD, name: 'Admin', role: 'admin', downloads: [] }
-]));
-}
 if (!localStorage.getItem('vf_blogs')) localStorage.setItem('vf_blogs', JSON.stringify([]));
 if (!localStorage.getItem('vf_faqs')) localStorage.setItem('vf_faqs', JSON.stringify([
 { id: 1, q: 'How do I download videos?', a: 'Simply paste the video URL, click Analyze, and then select your preferred quality to download.' },
 { id: 2, q: 'Is it free?', a: 'Yes! 100% free with no registration required.' },
 { id: 3, q: 'Where are videos saved?', a: 'Videos are saved to your device Downloads folder or Gallery.' }
 ]));
-if (!localStorage.getItem('vf_analytics')) localStorage.setItem('vf_analytics', JSON.stringify({ visitors: {}, downloads: [] }));
 if (!localStorage.getItem('vf_theme')) localStorage.setItem('vf_theme', 'light');
+trackVisit();
 }
 
 // Theme Toggle
@@ -1059,88 +1071,98 @@ window.scrollTo(0, 0);
 lucide.createIcons();
 }
 
-function handleLogin(e) {
+async function handleLogin(e) {
 e.preventDefault();
 const email = document.getElementById('loginEmail').value;
 const password = document.getElementById('loginPassword').value;
-const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
-const user = users.find(u => u.email === email && u.password === password);
-
-if (user) {
-currentUser = user;
+const btn = e.target.querySelector('button[type="submit"]');
+if (btn) { btn.disabled = true; btn.textContent = 'Signing in...'; }
+try {
+const res = await fetch('/.netlify/functions/auth-login', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ email, password })
+});
+const data = await res.json();
+if (!res.ok) { alert(data.error || 'Login failed.'); return; }
+currentUser = data.user;
+authToken = data.token;
+sessionStorage.setItem('vf_token', authToken);
+sessionStorage.setItem('vf_user', JSON.stringify(currentUser));
 updateAuthUI();
-alert('Welcome back, ' + user.name + '!');
+alert('Welcome back, ' + currentUser.name + '!');
 showPage('dashboard');
-} else {
-alert('Incorrect email or password!');
+} catch (err) {
+alert('Could not reach the server. Please try again.');
+} finally {
+if (btn) { btn.disabled = false; btn.textContent = 'Sign In'; }
 }
 }
 
-function handleSignUp(e) {
+async function handleSignUp(e) {
 e.preventDefault();
 const name = document.getElementById('signUpName').value;
 const email = document.getElementById('signUpEmail').value;
 const password = document.getElementById('signUpPassword').value;
-const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
-
-if (users.find(u => u.email === email)) {
-alert('Email already registered!');
-return;
-}
-
-const newUser = { email, password, name, role: 'viewer', downloads: [] };
-users.push(newUser);
-localStorage.setItem('vf_users', JSON.stringify(users));
-currentUser = newUser;
+const btn = e.target.querySelector('button[type="submit"]');
+if (btn) { btn.disabled = true; btn.textContent = 'Creating account...'; }
+try {
+const res = await fetch('/.netlify/functions/auth-signup', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ name, email, password })
+});
+const data = await res.json();
+if (!res.ok) { alert(data.error || 'Sign up failed.'); return; }
+currentUser = data.user;
+authToken = data.token;
+sessionStorage.setItem('vf_token', authToken);
+sessionStorage.setItem('vf_user', JSON.stringify(currentUser));
 updateAuthUI();
 alert('Account created successfully!');
 showPage('dashboard');
+} catch (err) {
+alert('Could not reach the server. Please try again.');
+} finally {
+if (btn) { btn.disabled = false; btn.textContent = 'Sign Up'; }
+}
 }
 
-function handleForgotPassword(e) {
+async function handleForgotPassword(e) {
 e.preventDefault();
 const email = document.getElementById('resetEmail').value;
-const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
-const user = users.find(u => u.email === email);
-
-if (!user) {
-alert('Email not found!');
-return;
-}
-
-const code = Math.floor(100000 + Math.random() * 900000).toString();
-localStorage.setItem('vf_reset_code', JSON.stringify({ email, code, time: Date.now() }));
-
-alert(`Verification code: ${code}\n\n(Note: In production, this would be sent to your email)`);
+try {
+await fetch('/.netlify/functions/auth-forgot-password', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ email })
+});
+} catch (err) {}
+window.vf_reset_email = email;
+alert('If an account exists for that email, a verification code has been sent to it. Check your inbox.');
 document.getElementById('forgotPasswordForm').classList.add('hide');
 document.getElementById('backToLogin2').classList.add('hide');
 document.getElementById('resetPasswordForm').classList.remove('hide');
 document.getElementById('backToLogin3').classList.remove('hide');
 }
 
-function handleResetPassword(e) {
+async function handleResetPassword(e) {
 e.preventDefault();
 const code = document.getElementById('resetCode').value;
 const newPassword = document.getElementById('newPassword').value;
-const resetData = JSON.parse(localStorage.getItem('vf_reset_code') || '{}');
-
-if (!resetData.code || resetData.code !== code) {
-alert('Invalid code!');
-return;
-}
-
-if (Date.now() - resetData.time > 300000) {
-alert('Code expired! Request a new one.');
-return;
-}
-
-const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
-const userIndex = users.findIndex(u => u.email === resetData.email);
-if (userIndex >= 0) {
-users[userIndex].password = newPassword;
-localStorage.setItem('vf_users', JSON.stringify(users));
-alert('Password reset successfully!');
+const email = window.vf_reset_email;
+try {
+const res = await fetch('/.netlify/functions/auth-reset-password', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ email, code, newPassword })
+});
+const data = await res.json();
+if (!res.ok) { alert(data.error || 'Reset failed.'); return; }
+alert('Password reset successfully! Please sign in.');
 showLogin();
+} catch (err) {
+alert('Could not reach the server. Please try again.');
 }
 }
 
@@ -1168,6 +1190,9 @@ document.getElementById('backToLogin2').classList.remove('hide');
 
 function logout() {
 currentUser = null;
+authToken = null;
+sessionStorage.removeItem('vf_token');
+sessionStorage.removeItem('vf_user');
 updateAuthUI();
 showPage('home');
 }
@@ -1188,12 +1213,14 @@ if (currentUser) {
 authButtons.classList.add('hide');
 userMenu.classList.remove('hidden');
 userNameDisplay.textContent = currentUser.name;
-if (currentUser.role === 'admin') {
+if (['admin','manager','viewer'].includes(currentUser.role)) {
 adminLink.classList.remove('hidden');
-if (grantAccessLink) grantAccessLink.classList.remove('hidden');
 } else {
 adminLink.classList.add('hidden');
-if (grantAccessLink) grantAccessLink.classList.add('hidden');
+}
+if (grantAccessLink) {
+if (currentUser.role === 'admin') grantAccessLink.classList.remove('hidden');
+else grantAccessLink.classList.add('hidden');
 }
 
 if (mobileAuthButtons) mobileAuthButtons.classList.add('hide');
@@ -1202,7 +1229,7 @@ mobileUserMenu.classList.remove('hidden');
 mobileUserName.textContent = currentUser.name;
 }
 if (mobileAdminLink) {
-if (currentUser.role === 'admin') mobileAdminLink.classList.remove('hidden');
+if (['admin','manager','viewer'].includes(currentUser.role)) mobileAdminLink.classList.remove('hidden');
 else mobileAdminLink.classList.add('hidden');
 }
 if (mobileGrantAccessLink) {
@@ -1250,21 +1277,42 @@ if (!currentUser || currentUser.role !== 'admin') { alert('Access denied. Admin 
 showPage('grantAccess');
 }
 
-function handleGrantAccess(e) {
+async function handleGrantAccess(e) {
 e.preventDefault();
 const email = document.getElementById('grantEmail').value;
 const role = document.getElementById('grantRole').value;
+const btn = e.target.querySelector('button[type="submit"]');
+if (btn) { btn.disabled = true; btn.textContent = 'Granting access...'; }
 
-// Create prompt
+let result;
+try {
+const res = await fetch('/.netlify/functions/grant-access', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ token: authToken, email, role })
+});
+result = await res.json();
+if (!res.ok) { alert(result.error || 'Failed to grant access.'); return; }
+} catch (err) {
+alert('Could not reach the server. Please try again.');
+return;
+} finally {
+if (btn) { btn.disabled = false; btn.textContent = 'Grant Access'; }
+}
+
+const statusLine = result.emailSent
+? `An email has been sent to <strong>${email}</strong> letting them know.`
+: `Access was saved, but the notification email could not be sent${result.emailError ? ' (' + result.emailError + ')' : ''}. They can still sign in / sign up with this email to get access.`;
+
 const prompt = document.createElement('div');
 prompt.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 prompt';
 prompt.innerHTML = `
 <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-md mx-4 text-center animate-scale-in shadow-2xl">
-<div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-<i data-lucide="check" class="w-8 h-8 text-white"></i>
+<div class="w-16 h-16 ${result.emailSent ? 'bg-green-500' : 'bg-amber-500'} rounded-full flex items-center justify-center mx-auto mb-4">
+<i data-lucide="${result.emailSent ? 'check' : 'alert-triangle'}" class="w-8 h-8 text-white"></i>
 </div>
-<h3 class="text-2xl font-black text-slate-800 dark:text-slate-100 mb-2">Invitation Sent!</h3>
-<p class="text-slate-600 dark:text-slate-400 mb-6">Access request has been sent to <strong>${email}</strong> as <strong>${role}</strong>.</p>
+<h3 class="text-2xl font-black text-slate-800 dark:text-slate-100 mb-2">Access Granted</h3>
+<p class="text-slate-600 dark:text-slate-400 mb-6"><strong>${email}</strong> now has <strong>${role}</strong> access. ${statusLine}</p>
 <button onclick="this.closest('.prompt').remove(); showPage('dashboard')" class="gradient-primary text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition">OK</button>
 </div>
 `;
@@ -1275,34 +1323,44 @@ document.getElementById('grantEmail').value = '';
 }
 
 // User Dashboard
-function loadUserDashboard() {
-if (!currentUser) return;
+let monthlyChartInstance = null;
 
-const downloads = currentUser.downloads || [];
-const total = downloads.length;
-const tiktok = downloads.filter(d => d.platform === 'tiktok').length;
-const youtube = downloads.filter(d => d.platform === 'youtube').length;
-const facebook = downloads.filter(d => d.platform === 'facebook').length;
+async function loadUserDashboard() {
+const tbody = document.getElementById('downloadHistory');
+if (tbody) tbody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-slate-500">Loading...</td></tr>';
 
-document.getElementById('totalDownloads').textContent = total;
-document.getElementById('tiktokDownloads').textContent = tiktok;
-document.getElementById('youtubeDownloads').textContent = youtube;
-document.getElementById('facebookDownloads').textContent = facebook;
+let data;
+try {
+const params = new URLSearchParams({ visitorId: getVisitorId(), email: currentUser ? currentUser.email : '' });
+const res = await fetch('/.netlify/functions/get-my-data?' + params.toString());
+data = await res.json();
+if (!res.ok) throw new Error(data.error || 'Failed to load');
+} catch (err) {
+if (tbody) tbody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-red-500">Could not load your data. Please refresh.</td></tr>';
+return;
+}
 
-const months = {};
-downloads.forEach(d => {
-const month = d.date.substring(0, 7);
-months[month] = (months[month] || 0) + 1;
+document.getElementById('totalDownloads').textContent = data.total;
+document.getElementById('tiktokDownloads').textContent = data.counts.tiktok || 0;
+document.getElementById('youtubeDownloads').textContent = data.counts.youtube || 0;
+document.getElementById('facebookDownloads').textContent = data.counts.facebook || 0;
+
+const days = {};
+data.history.forEach(d => {
+const day = d.date.substring(0, 10);
+days[day] = (days[day] || 0) + 1;
 });
+const sortedDays = Object.keys(days).sort();
 
 const ctx = document.getElementById('monthlyChart').getContext('2d');
-new Chart(ctx, {
+if (monthlyChartInstance) monthlyChartInstance.destroy();
+monthlyChartInstance = new Chart(ctx, {
 type: 'line',
 data: {
-labels: Object.keys(months).sort(),
+labels: sortedDays,
 datasets: [{
 label: 'Downloads',
-data: Object.keys(months).sort().map(m => months[m]),
+data: sortedDays.map(d => days[d]),
 borderColor: '#f97316',
 backgroundColor: 'rgba(249, 115, 22, 0.1)',
 fill: true,
@@ -1312,43 +1370,55 @@ tension: 0.4
 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
 });
 
-const tbody = document.getElementById('downloadHistory');
-tbody.innerHTML = downloads.slice().reverse().map(d => `
+if (tbody) {
+tbody.innerHTML = data.history.map(d => `
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition">
 <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${new Date(d.date).toLocaleDateString()}</td>
 <td class="px-6 py-4"><span class="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-full text-xs font-bold">${d.platform}</span></td>
 <td class="px-6 py-4 text-sm text-slate-800 dark:text-slate-200">${d.title}</td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${d.quality}</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${d.quality || '-'}</td>
 </tr>
 `).join('') || '<tr><td colspan="4" class="px-6 py-4 text-center text-slate-500">No downloads yet</td></tr>';
 }
-
-// Admin Panel
-function loadAdminPanel() {
-const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
-const analytics = JSON.parse(localStorage.getItem('vf_analytics') || '{}');
-const today = new Date().toISOString().split('T')[0];
-
-document.getElementById('adminTotalUsers').textContent = users.length;
-document.getElementById('adminTodayVisitors').textContent = analytics.visitors[today] || 0;
-document.getElementById('adminTotalDownloads').textContent = analytics.downloads?.length || 0;
-document.getElementById('adminTodayDownloads').textContent = (analytics.downloads || []).filter(d => d.date.startsWith(today)).length;
-
-const last7Days = [];
-for (let i = 6; i >= 0; i--) {
-const d = new Date();
-d.setDate(d.getDate() - i);
-last7Days.push(d.toISOString().split('T')[0]);
 }
 
+// Admin Panel
+let adminVisitorsChartInstance = null;
+let lastAdminData = null;
+
+async function fetchAdminData(from, to) {
+const params = new URLSearchParams({ token: authToken || '' });
+if (from) params.set('from', from);
+if (to) params.set('to', to);
+const res = await fetch('/.netlify/functions/get-admin-data?' + params.toString());
+const data = await res.json();
+if (!res.ok) throw new Error(data.error || 'Failed to load admin data');
+return data;
+}
+
+async function loadAdminPanel() {
+try {
+lastAdminData = await fetchAdminData();
+} catch (err) {
+alert(err.message || 'Could not load dashboard data.');
+return;
+}
+const data = lastAdminData;
+
+document.getElementById('adminTotalUsers').textContent = data.totalUsers;
+document.getElementById('adminTodayVisitors').textContent = data.visitorsToday;
+document.getElementById('adminTotalDownloads').textContent = data.totalDownloads;
+document.getElementById('adminTodayDownloads').textContent = data.downloadsToday;
+
 const ctx = document.getElementById('adminVisitorsChart').getContext('2d');
-new Chart(ctx, {
+if (adminVisitorsChartInstance) adminVisitorsChartInstance.destroy();
+adminVisitorsChartInstance = new Chart(ctx, {
 type: 'bar',
 data: {
-labels: last7Days,
+labels: data.dailyVisitors.map(d => d.date),
 datasets: [{
 label: 'Visitors',
-data: last7Days.map(d => analytics.visitors[d] || 0),
+data: data.dailyVisitors.map(d => d.count),
 backgroundColor: '#f97316',
 borderRadius: 8
 }]
@@ -1359,6 +1429,7 @@ options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { di
 loadUsers();
 loadBlogs();
 loadFAQs();
+filterAnalytics();
 }
 
 function showAdminSection(section) {
@@ -1387,74 +1458,88 @@ if (section === 'users') loadUsers();
 }
 
 function loadUsers() {
-const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
 const tbody = document.getElementById('usersTable');
-if (!tbody) return;
+if (!tbody || !lastAdminData) return;
+const users = lastAdminData.users || [];
+const canEdit = lastAdminData.role === 'admin';
 tbody.innerHTML = users.map(u => `
 <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition">
 <td class="px-6 py-4 text-sm font-medium text-slate-800 dark:text-slate-200">${u.name}</td>
 <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${u.email}</td>
-<td class="px-6 py-4"><span class="px-3 py-1 ${u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'} rounded-full text-xs font-bold">${u.role}</span></td>
-<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${u.downloads?.length || 0}</td>
+<td class="px-6 py-4"><span class="px-3 py-1 ${u.role === 'admin' ? 'bg-purple-100 text-purple-700' : u.role === 'manager' ? 'bg-blue-100 text-blue-700' : u.role === 'viewer' ? 'bg-teal-100 text-teal-700' : 'bg-slate-100 text-slate-700'} rounded-full text-xs font-bold">${u.role}</span></td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">${u.downloads || 0}</td>
 <td class="px-6 py-4">
-${u.email !== ADMIN_EMAIL ? `
-<button onclick="changeUserRole('${u.email}', '${u.role === 'viewer' ? 'manager' : 'viewer'}')" class="text-primary-600 hover:text-primary-700 text-sm font-bold transition">Make ${u.role === 'viewer' ? 'Manager' : 'Viewer'}</button>
+${(canEdit && u.role !== 'admin') ? `
+<select onchange="changeUserRole('${u.email}', this.value)" class="text-sm border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 bg-white dark:bg-slate-800">
+<option value="user" ${u.role === 'user' ? 'selected' : ''}>User</option>
+<option value="viewer" ${u.role === 'viewer' ? 'selected' : ''}>Viewer</option>
+<option value="manager" ${u.role === 'manager' ? 'selected' : ''}>Manager</option>
+</select>
 ` : '-'}
 </td>
 </tr>
-`).join('');
+`).join('') || '<tr><td colspan="5" class="px-6 py-4 text-center text-slate-500">No users yet</td></tr>';
 }
 
-function changeUserRole(email, newRole) {
-const users = JSON.parse(localStorage.getItem('vf_users') || '[]');
-const idx = users.findIndex(u => u.email === email);
-if (idx >= 0) {
-users[idx].role = newRole;
-localStorage.setItem('vf_users', JSON.stringify(users));
+async function changeUserRole(email, newRole) {
+try {
+const res = await fetch('/.netlify/functions/set-role', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ token: authToken, email, role: newRole })
+});
+const data = await res.json();
+if (!res.ok) { alert(data.error || 'Failed to update role.'); return; }
+lastAdminData = await fetchAdminData();
 loadUsers();
+} catch (err) {
+alert('Could not reach the server. Please try again.');
 }
 }
 
-function filterAnalytics() {
+let platformUsageChartInstance = null;
+let dailyDownloadsChartInstance = null;
+
+async function filterAnalytics() {
 const from = document.getElementById('analyticsFromDate').value;
 const to = document.getElementById('analyticsToDate').value;
-const analytics = JSON.parse(localStorage.getItem('vf_analytics') || '{}');
 
-let filtered = (analytics.downloads || []).filter(d => {
-const date = d.date.split('T')[0];
-return (!from || date >= from) && (!to || date <= to);
-});
+let data;
+try {
+data = await fetchAdminData(from, to);
+lastAdminData = data;
+} catch (err) {
+alert(err.message || 'Could not load analytics.');
+return;
+}
 
-document.getElementById('filterTotalDownloads').textContent = filtered.length;
-document.getElementById('filterUniqueUsers').textContent = [...new Set(filtered.map(d => d.user))].length;
+const f = data.filtered;
+document.getElementById('filterTotalDownloads').textContent = f.total;
+document.getElementById('filterUniqueUsers').textContent = f.uniqueUsers;
 
-const platforms = {};
-filtered.forEach(d => { platforms[d.platform] = (platforms[d.platform] || 0) + 1; });
-const mostUsed = Object.entries(platforms).sort((a,b) => b[1] - a[1])[0];
-document.getElementById('filterMostUsed').textContent = mostUsed ? mostUsed[0] : '-';
+const mostUsedEntry = Object.entries(f.platformCounts).sort((a, b) => b[1] - a[1])[0];
+document.getElementById('filterMostUsed').textContent = mostUsedEntry ? mostUsedEntry[0] : '-';
 
+const platformColors = { tiktok: '#000000', youtube: '#dc2626', facebook: '#2563eb', pinterest: '#ec4899' };
+const pLabels = Object.keys(f.platformCounts);
 const pCtx = document.getElementById('platformUsageChart').getContext('2d');
-new Chart(pCtx, {
+if (platformUsageChartInstance) platformUsageChartInstance.destroy();
+platformUsageChartInstance = new Chart(pCtx, {
 type: 'doughnut',
 data: {
-labels: Object.keys(platforms),
-datasets: [{ data: Object.values(platforms), backgroundColor: ['#f97316', '#dc2626', '#2563eb'] }]
+labels: pLabels,
+datasets: [{ data: pLabels.map(l => f.platformCounts[l]), backgroundColor: pLabels.map(l => platformColors[l] || '#f97316') }]
 },
 options: { responsive: true, maintainAspectRatio: false }
 });
 
-const daily = {};
-filtered.forEach(d => {
-const date = d.date.split('T')[0];
-daily[date] = (daily[date] || 0) + 1;
-});
-
 const dCtx = document.getElementById('dailyDownloadsChart').getContext('2d');
-new Chart(dCtx, {
+if (dailyDownloadsChartInstance) dailyDownloadsChartInstance.destroy();
+dailyDownloadsChartInstance = new Chart(dCtx, {
 type: 'line',
 data: {
-labels: Object.keys(daily).sort(),
-datasets: [{ label: 'Downloads', data: Object.keys(daily).sort().map(d => daily[d]), borderColor: '#f97316', tension: 0.4 }]
+labels: f.daily.map(d => d.date),
+datasets: [{ label: 'Downloads', data: f.daily.map(d => d.count), borderColor: '#f97316', tension: 0.4 }]
 },
 options: { responsive: true, maintainAspectRatio: false }
 });
@@ -1621,6 +1706,15 @@ window.onload = function() {
 initData();
 applyTheme();
 initQuill();
+const savedToken = sessionStorage.getItem('vf_token');
+const savedUser = sessionStorage.getItem('vf_user');
+if (savedToken && savedUser) {
+try {
+authToken = savedToken;
+currentUser = JSON.parse(savedUser);
+updateAuthUI();
+} catch (e) {}
+}
 const requestedPage = new URLSearchParams(window.location.search).get('page');
 const validPages = ['home', 'blogs', 'faq', 'auth', 'dashboard', 'admin'];
 showPage(validPages.includes(requestedPage) ? requestedPage : 'home');

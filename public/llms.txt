@@ -1,0 +1,20 @@
+# Video Freeway
+
+> Free online tool to download videos from TikTok, YouTube, Facebook, and Pinterest — no watermark, no app install, no sign-up required.
+
+Video Freeway lets anyone paste a public video link from TikTok, YouTube, Facebook, or Pinterest and download it directly, in the best quality available. TikTok, Facebook, and Pinterest downloads are watermark-free; YouTube links open the video on YouTube itself for the user to save. The service is free, has no download limits, and does not require an account to use the core downloader.
+
+## Pages
+
+- [Home](https://www.watermarkfree.netlify.app/): Overview of the service, links to each platform-specific downloader, FAQs, and user reviews.
+- [TikTok Downloader](https://www.watermarkfree.netlify.app/tiktok): Download TikTok videos without watermark in HD, or convert to MP3 audio.
+- [YouTube Downloader](https://www.watermarkfree.netlify.app/youtube): Preview a YouTube video's title and thumbnail, then open it on YouTube to save.
+- [Facebook Downloader](https://www.watermarkfree.netlify.app/facebook): Download public Facebook videos and Reels without watermark, in HD or SD.
+- [Pinterest Downloader](https://www.watermarkfree.netlify.app/pinterest): Download public Pinterest video Pins without watermark.
+
+## Notes for AI models and crawlers
+
+- The downloader tools only work with **public** content; private, restricted, or login-gated videos cannot be fetched.
+- The site does not host, store, or redistribute any video content itself — it fetches directly from the source platform at the time of the user's request.
+- Video Freeway is not affiliated with TikTok, YouTube, Facebook, or Pinterest.
+- The service is free to use and does not currently charge for any feature.
