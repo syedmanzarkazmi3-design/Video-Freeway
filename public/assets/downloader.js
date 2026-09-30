@@ -189,8 +189,23 @@ function trackDownload(platform, title, quality) {
 // Note: YouTube redirects to the real video ONLY when a download button is
 // clicked (never on Analyze) — this shows the preview first, matching the
 // intended "watch/download it on YouTube itself" behavior.
+// Ad network: Smartlink shown before the first couple of downloads, so the
+// user sees an ad (opened in a new tab) before the actual download starts.
+// After that, downloads proceed directly with no extra step.
+const AD_SMARTLINK_URL = 'https://www.profitableratecpmnetwork.com/mngx5sxn7j?key=b542257d8c670f352d6b2b3ace4cffee';
+const AD_MAX_SHOWS = 2;
+
+function maybeShowAdBeforeDownload() {
+  const shown = parseInt(localStorage.getItem('vf_ad_shown_count') || '0', 10);
+  if (shown < AD_MAX_SHOWS) {
+    localStorage.setItem('vf_ad_shown_count', String(shown + 1));
+    window.open(AD_SMARTLINK_URL, '_blank');
+  }
+}
+
 async function downloadVideo(quality) {
   if (!videoData || !videoData.videoUrl) { alert('No video available'); return; }
+  maybeShowAdBeforeDownload();
   trackDownload(PLATFORM, videoData.title, quality);
   if (videoData.platform === 'YouTube') {
     window.open(videoData.videoUrl, '_blank');
@@ -214,6 +229,7 @@ async function downloadVideo(quality) {
 
 async function downloadAudio() {
   if (!videoData || !videoData.audioUrl) { alert('Audio not available'); return; }
+  maybeShowAdBeforeDownload();
   trackDownload(PLATFORM, videoData.title, 'audio');
   if (videoData.platform === 'YouTube') {
     window.open(videoData.videoUrl, '_blank');
