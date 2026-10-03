@@ -162,7 +162,12 @@ function extractVideoData(html) {
   ) || 'Pinterest Video';
 
   const thumbnail = unescapeUrl(
-    firstMatch(html, [/<meta property="og:image" content="(.*?)"/])
+    firstMatch(html, [
+      /<meta property="og:image" content="(.*?)"/,
+      /<meta content="(.*?)" property="og:image"/,
+      /"images"\s*:\s*\{\s*"orig"\s*:\s*\{\s*"url"\s*:\s*"(.*?)"/,
+      /"image_large_url"\s*:\s*"(.*?)"/,
+    ])
   );
 
   const author =

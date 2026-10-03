@@ -203,7 +203,63 @@ function maybeShowAdBeforeDownload() {
   }
 }
 
-async function downloadVideo(quality) {
+function setButtonLoading(btn, isLoading) {
+  if (!btn) return;
+  const icon = btn.querySelector('.download-icon');
+  const label = btn.querySelector('.btn-label');
+  if (isLoading) {
+    btn.disabled = true;
+    btn.classList.add('opacity-70', 'cursor-wait');
+    btn.dataset.origLabel = label ? label.textContent : '';
+    if (label) label.textContent = 'Downloading...';
+    if (icon) {
+      icon.dataset.origIcon = icon.getAttribute('data-lucide') || '';
+      icon.setAttribute('data-lucide', 'loader-2');
+      icon.classList.add('animate-spin');
+      if (window.lucide) lucide.createIcons();
+    }
+  } else {
+    btn.disabled = false;
+    btn.classList.remove('opacity-70', 'cursor-wait');
+    if (label && btn.dataset.origLabel) label.textContent = btn.dataset.origLabel;
+    if (icon && icon.dataset.origIcon) {
+      icon.setAttribute('data-lucide', icon.dataset.origIcon);
+      icon.classList.remove('animate-spin');
+      if (window.lucide) lucide.createIcons();
+    }
+  }
+}
+
+// Platforms whose CDN blocks cross-origin fetch() from the browser — route
+// these through our own serverless proxy instead (fetches server-side, no
+// CORS restriction, and streams the file back so it downloads normally
+// instead of opening in a new tab).
+const PROXY_PLATFORMS = ['Pinterest'];
+
+async function saveFile(url, filename, platform) {
+  if (PROXY_PLATFORMS.includes(platform)) {
+    const proxyUrl = `/.netlify/functions/proxy-download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename)}`;
+    const a = document.createElement('a');
+    a.href = proxyUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    return;
+  }
+  const response = await fetch(url);
+  const blob = await response.blob();
+  const blobUrl = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = blobUrl;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(blobUrl);
+}
+
+async function downloadVideo(quality, btn) {
   if (!videoData || !videoData.videoUrl) { alert('No video available'); return; }
   maybeShowAdBeforeDownload();
   trackDownload(PLATFORM, videoData.title, quality);
@@ -211,23 +267,17 @@ async function downloadVideo(quality) {
     window.open(videoData.videoUrl, '_blank');
     return;
   }
+  setButtonLoading(btn, true);
   try {
-    const response = await fetch(videoData.videoUrl);
-    const blob = await response.blob();
-    const blobUrl = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = blobUrl;
-    a.download = `${videoData.platform}_${quality}.mp4`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(blobUrl);
+    await saveFile(videoData.videoUrl, `${videoData.platform}_${quality}.mp4`, videoData.platform);
   } catch (error) {
     window.open(videoData.videoUrl, '_blank');
+  } finally {
+    setButtonLoading(btn, false);
   }
 }
 
-async function downloadAudio() {
+async function downloadAudio(btn) {
   if (!videoData || !videoData.audioUrl) { alert('Audio not available'); return; }
   maybeShowAdBeforeDownload();
   trackDownload(PLATFORM, videoData.title, 'audio');
@@ -235,18 +285,12 @@ async function downloadAudio() {
     window.open(videoData.videoUrl, '_blank');
     return;
   }
+  setButtonLoading(btn, true);
   try {
-    const response = await fetch(videoData.audioUrl);
-    const blob = await response.blob();
-    const blobUrl = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = blobUrl;
-    a.download = `${videoData.platform}_audio.mp3`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(blobUrl);
+    await saveFile(videoData.audioUrl, `${videoData.platform}_audio.mp3`, videoData.platform);
   } catch (error) {
     window.open(videoData.audioUrl, '_blank');
+  } finally {
+    setButtonLoading(btn, false);
   }
 }

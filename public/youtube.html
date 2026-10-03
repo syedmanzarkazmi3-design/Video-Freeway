@@ -140,6 +140,7 @@ Downloaders <i data-lucide="chevron-down" class="w-4 h-4"></i>
 </div>
 </div>
 
+<div class="hidden md:flex items-center gap-3">
 <div id="authButtons">
 <button onclick="location.href='index.html?page=auth'" class="btn-shine gradient-primary text-white px-3.5 sm:px-6 py-2 rounded-xl font-bold text-sm sm:text-base hover:opacity-90 transition transform hover:scale-105 shadow-lg whitespace-nowrap">Sign In</button>
 </div>
@@ -165,9 +166,10 @@ Downloaders <i data-lucide="chevron-down" class="w-4 h-4"></i>
 </a>
 </div>
 </div>
+</div>
 
 <!-- Mobile Menu Button -->
-<button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+<button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition flex-shrink-0">
 <i data-lucide="menu" class="w-6 h-6"></i>
 </button>
 </div>
@@ -262,17 +264,17 @@ YouTube Video Downloader<br class="sm:hidden"> <span class="gradient-text">Free<
 <p id="videoAuthor" class="text-slate-600 dark:text-slate-400 flex items-center gap-2 mb-6 font-medium"><i data-lucide="user" class="w-4 h-4"></i><span></span></p>
 <div class="space-y-3">
 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Download Options</p>
-<button onclick="downloadVideo('1080p')" class="download-btn w-full gradient-primary text-white p-4 rounded-2xl font-bold flex items-center justify-between shadow-lg hover:opacity-95 transition transform hover:scale-[1.02] active:scale-95">
-<div class="flex items-center gap-3"><div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center"><i data-lucide="video" class="w-5 h-5"></i></div><div class="text-left"><div class="text-sm">Full HD 1080p</div><div class="text-xs opacity-75">MP4 • No Watermark</div></div></div>
-<i data-lucide="download" class="w-5 h-5"></i>
+<button onclick="downloadVideo('1080p', this)" class="download-btn w-full gradient-primary text-white p-4 rounded-2xl font-bold flex items-center justify-between shadow-lg hover:opacity-95 transition transform hover:scale-[1.02] active:scale-95">
+<div class="flex items-center gap-3"><div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center"><i data-lucide="video" class="w-5 h-5"></i></div><div class="text-left"><div class="text-sm btn-label">Full HD 1080p</div><div class="text-xs opacity-75">MP4 • No Watermark</div></div></div>
+<i data-lucide="download" class="w-5 h-5 download-icon"></i>
 </button>
-<button onclick="downloadVideo('720p')" class="download-btn w-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 p-4 rounded-2xl font-bold flex items-center justify-between transition transform hover:scale-[1.02] active:scale-95">
-<div class="flex items-center gap-3"><div class="w-10 h-10 bg-white dark:bg-slate-800 rounded-xl flex items-center justify-center"><i data-lucide="video" class="w-5 h-5"></i></div><div class="text-left"><div class="text-sm">HD 720p</div><div class="text-xs text-slate-500 dark:text-slate-400">MP4</div></div></div>
-<i data-lucide="download" class="w-5 h-5"></i>
+<button onclick="downloadVideo('720p', this)" class="download-btn w-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 p-4 rounded-2xl font-bold flex items-center justify-between transition transform hover:scale-[1.02] active:scale-95">
+<div class="flex items-center gap-3"><div class="w-10 h-10 bg-white dark:bg-slate-800 rounded-xl flex items-center justify-center"><i data-lucide="video" class="w-5 h-5"></i></div><div class="text-left"><div class="text-sm btn-label">HD 720p</div><div class="text-xs text-slate-500 dark:text-slate-400">MP4</div></div></div>
+<i data-lucide="download" class="w-5 h-5 download-icon"></i>
 </button>
-<button onclick="downloadAudio()" class="download-btn w-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 p-4 rounded-2xl font-bold flex items-center justify-between transition transform hover:scale-[1.02] active:scale-95">
-<div class="flex items-center gap-3"><div class="w-10 h-10 bg-white dark:bg-slate-800 rounded-xl flex items-center justify-center"><i data-lucide="music" class="w-5 h-5"></i></div><div class="text-left"><div class="text-sm">Audio Only</div><div class="text-xs text-slate-500 dark:text-slate-400">MP3</div></div></div>
-<i data-lucide="download" class="w-5 h-5"></i>
+<button onclick="downloadAudio(this)" class="download-btn w-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 p-4 rounded-2xl font-bold flex items-center justify-between transition transform hover:scale-[1.02] active:scale-95">
+<div class="flex items-center gap-3"><div class="w-10 h-10 bg-white dark:bg-slate-800 rounded-xl flex items-center justify-center"><i data-lucide="music" class="w-5 h-5"></i></div><div class="text-left"><div class="text-sm btn-label">Audio Only</div><div class="text-xs text-slate-500 dark:text-slate-400">MP3</div></div></div>
+<i data-lucide="download" class="w-5 h-5 download-icon"></i>
 </button>
 </div>
 </div>
@@ -286,11 +288,11 @@ YouTube Video Downloader<br class="sm:hidden"> <span class="gradient-text">Free<
 <!-- Ad: native banner + medium rectangle -->
 <section class="py-10 bg-slate-50 dark:bg-slate-900/50">
 <div class="max-w-4xl mx-auto px-4 flex flex-col items-center gap-8">
-<div class="w-full flex justify-center overflow-hidden">
+<div class="w-full flex justify-center ad-slot">
 <script async="async" data-cfasync="false" src="https://pl31492648.profitableratecpmnetwork.com/123a60e9f3e7b9d5625d2230bca3f753/invoke.js"></script>
 <div id="container-123a60e9f3e7b9d5625d2230bca3f753"></div>
 </div>
-<div class="flex justify-center overflow-hidden">
+<div class="flex justify-center ad-slot">
 <script>
   atOptions = {
     'key' : '1dcb75c9d8487e56784349d4426e197d',
@@ -337,7 +339,7 @@ YouTube Video Downloader<br class="sm:hidden"> <span class="gradient-text">Free<
 <div class="max-w-4xl mx-auto px-4 flex flex-col md:flex-row gap-10">
 <div class="flex-1 space-y-10">
 </div>
-<div class="flex md:flex-col justify-center items-center flex-shrink-0 overflow-hidden">
+<div class="flex md:flex-col justify-center items-center flex-shrink-0 ad-slot">
 <script>
   atOptions = {
     'key' : 'c7f461b7e9fb4863ac8ddcf64998ea7b',
@@ -384,7 +386,7 @@ const PLATFORM = 'youtube';
 lucide.createIcons();
 </script>
 <!-- Ad network: Popunder + Social Bar (sitewide) -->
-<script src="https://pl31492645.profitableratecpmnetwork.com/82/af/03/82af037407859dba153c006664d7016d.js"></script>
-<script src="https://pl31492646.profitableratecpmnetwork.com/e3/a6/f4/e3a6f49262dd47407caa278c6bf195ea.js"></script>
+<script defer src="https://pl31492645.profitableratecpmnetwork.com/82/af/03/82af037407859dba153c006664d7016d.js"></script>
+<script defer src="https://pl31492646.profitableratecpmnetwork.com/e3/a6/f4/e3a6f49262dd47407caa278c6bf195ea.js"></script>
 </body>
 </html>
